@@ -45,22 +45,42 @@ Decimal operator-(const Decimal& d1, const Decimal& d2) {
     
     gapSize = lhs.afterPoint.size() - rhs.afterPoint.size();
     if(gapSize > 0.0){
-        rhs.afterPoint.insert(rhs.afterPoint.end(), (int)abs(gapSize), 0);
+        for(int i = 0; i < gapSize; i++){
+            rhs.afterPoint.push_back(0);
+        }
     }
     if (gapSize < 0.0){
-        lhs.afterPoint.insert(lhs.afterPoint.end(), (int)abs(gapSize), 0);
+        for(int i = 0; i < gapSize; i++){
+            lhs.afterPoint.push_back(0);
+        }
     }
+    for(int i = 0; i < rhs.afterPoint.size(); i++){
+        cout << rhs.afterPoint[i];
+    }
+    cout << endl;
     
-    vector<int> l, r;
+    vector<int> l, r, subRes;
     l.reserve(lhs.beforePoint.size() + lhs.afterPoint.size());
     r.reserve(rhs.beforePoint.size() + rhs.afterPoint.size());
     l.insert(l.end(), lhs.beforePoint.begin(), lhs.beforePoint.end());
     l.insert(l.end(), lhs.afterPoint.begin(), lhs.afterPoint.end());
-    r.insert(l.end(), rhs.beforePoint.begin(), rhs.beforePoint.end());
-    r.insert(l.end(), rhs.afterPoint.begin(), rhs.afterPoint.end());
+    r.insert(r.end(), rhs.beforePoint.begin(), rhs.beforePoint.end());
+    r.insert(r.end(), rhs.afterPoint.begin(), rhs.afterPoint.end());
+    for(int i = 0; i < l.size(); i++){
+        cout << l[i];
+    }
+    cout << endl;
+    for(int i = 0; i < r.size(); i++){
+        cout << r[i];
+    }
+    cout << endl;
     
-    result.sub(l, r);
-    
+    subRes = result.sub(l, r);
+    for(int i = 0; i < subRes.size(); i++){
+    cout << subRes[i];
+    }
+    cout << endl;
+    return result;
 }
 
 

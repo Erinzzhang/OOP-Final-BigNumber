@@ -10,12 +10,22 @@ vector<int> NumberObject::add(vector<int> num1, vector<int> num2, bool isDecimal
     //set both vector to the same length
     double gapSize = num1.size() - num2.size();
     if(gapSize > 0.0){
-        if(isDecimalAfterPoint) num2.insert(num2.end() + 1, (int)abs(gapSize), 0);
-        else num2.insert(num2.begin(), (int)abs(gapSize), 0);
+        if(isDecimalAfterPoint){
+            for(int i = 0; i < gapSize; i++){
+                num2.push_back(0);
+            }
+        }else{
+            num2.insert(num2.begin(), (int)abs(gapSize), 0);
+        }
     }
     if (gapSize < 0.0){
-        if(isDecimalAfterPoint) num1.insert(num1.end() + 1, (int)abs(gapSize), 0);
-        else num1.insert(num1.begin(), (int)abs(gapSize), 0);
+        if(isDecimalAfterPoint){
+            for(int i = 0; i < gapSize; i++){
+                num1.push_back(0);
+            }
+        }else{
+            num1.insert(num1.begin(), (int)abs(gapSize), 0);
+        }
     }
 	
     //reverse the vector to calculate from the ones
@@ -43,12 +53,10 @@ vector<int> NumberObject::sub(vector<int> num1, vector<int> num2) {
     //set both vector to the same length
     double gapSize = num1.size() - num2.size();
     if(gapSize > 0.0){
-        if(isDecimalAfterPoint) num2.insert(num2.end(), (int)abs(gapSize), 0);
-        else num2.insert(num2.begin(), (int)abs(gapSize), 0);
+        num2.insert(num2.begin(), (int)abs(gapSize), 0);
     }
     if (gapSize < 0.0){
-        if(isDecimalAfterPoint) num1.insert(num1.end(), (int)abs(gapSize), 0);
-        else num1.insert(num1.begin(), (int)abs(gapSize), 0);
+        num1.insert(num1.begin(), (int)abs(gapSize), 0);
     }
 
 	//reverse the vector to calculate from the ones
