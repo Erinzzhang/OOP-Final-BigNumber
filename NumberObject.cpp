@@ -3,17 +3,19 @@
 #include <cmath>
 using namespace std;
 
-vector<int> NumberObject::add(vector<int> num1, vector<int> num2) {
+vector<int> NumberObject::add(vector<int> num1, vector<int> num2, bool isDecimalAfterPoint) {
 	vector<int> result;		//a vector to sort results
 	int ten = 0;
     
     //set both vector to the same length
     double gapSize = num1.size() - num2.size();
     if(gapSize > 0.0){
-        num2.insert(num2.begin(), (int)abs(gapSize), 0);
+        if(isDecimalAfterPoint) num2.insert(num2.end() + 1, (int)abs(gapSize), 0);
+        else num2.insert(num2.begin(), (int)abs(gapSize), 0);
     }
     if (gapSize < 0.0){
-        num1.insert(num1.begin(), (int)abs(gapSize), 0);
+        if(isDecimalAfterPoint) num1.insert(num1.end() + 1, (int)abs(gapSize), 0);
+        else num1.insert(num1.begin(), (int)abs(gapSize), 0);
     }
 	
     //reverse the vector to calculate from the ones
@@ -29,20 +31,24 @@ vector<int> NumberObject::add(vector<int> num1, vector<int> num2) {
 	if (ten != 0) {		//if ten isn't zero add it to the result vector
 		result.push_back(ten);
 	}
+    reverse(result.begin(), result.end());
+    
 	return result;
 }
 
-vector<int> NumberObject::sub(vector<int> num1, vector<int> num2) {
+vector<int> NumberObject::sub(vector<int> num1, vector<int> num2, bool isDecimalAfterPoint) {
 	vector<int> result;
 	int ten = 0;	//ten is whether the previous calculation had minus off one from the next tens
 
     //set both vector to the same length
     double gapSize = num1.size() - num2.size();
     if(gapSize > 0.0){
-        num2.insert(num2.begin(), (int)abs(gapSize), 0);
+        if(isDecimalAfterPoint) num2.insert(num2.end(), (int)abs(gapSize), 0);
+        else num2.insert(num2.begin(), (int)abs(gapSize), 0);
     }
     if (gapSize < 0.0){
-        num1.insert(num1.begin(), (int)abs(gapSize), 0);
+        if(isDecimalAfterPoint) num1.insert(num1.end(), (int)abs(gapSize), 0);
+        else num1.insert(num1.begin(), (int)abs(gapSize), 0);
     }
 
 	//reverse the vector to calculate from the ones
@@ -68,5 +74,7 @@ vector<int> NumberObject::sub(vector<int> num1, vector<int> num2) {
 		}
 		result.push_back(sum);	//push back the result
 	}
+    reverse(result.begin(), result.end());
+    
 	return result;
 }
