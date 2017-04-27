@@ -32,7 +32,7 @@ Decimal operator+(const Decimal& d1, const Decimal& d2) {
 }
 
 Decimal operator-(const Decimal& d1, const Decimal& d2) {
-    Decimal lhs = d1, rhs = d2;
+    Decimal lhs = d1, rhs = d2, result;
     
     //set both vector to the same length
     double gapSize = lhs.beforePoint.size() - rhs.beforePoint.size();
@@ -52,9 +52,15 @@ Decimal operator-(const Decimal& d1, const Decimal& d2) {
     }
     
     vector<int> l, r;
-    l.reserve(lhs.beforePoint.size() + lhs.afterPoint.size() + 1);
-    r.reserve(rhs.beforePoint.size() + rhs.afterPoint.size() + 1);
-    l.insert(l.end(), lhs.beforePoint
+    l.reserve(lhs.beforePoint.size() + lhs.afterPoint.size());
+    r.reserve(rhs.beforePoint.size() + rhs.afterPoint.size());
+    l.insert(l.end(), lhs.beforePoint.begin(), lhs.beforePoint.end());
+    l.insert(l.end(), lhs.afterPoint.begin(), lhs.afterPoint.end());
+    r.insert(l.end(), rhs.beforePoint.begin(), rhs.beforePoint.end());
+    r.insert(l.end(), rhs.afterPoint.begin(), rhs.afterPoint.end());
+    
+    result.sub(l, r);
+    
 }
 
 

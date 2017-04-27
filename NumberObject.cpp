@@ -36,7 +36,7 @@ vector<int> NumberObject::add(vector<int> num1, vector<int> num2, bool isDecimal
 	return result;
 }
 
-vector<int> NumberObject::sub(vector<int> num1, vector<int> num2, bool isDecimalAfterPoint) {
+vector<int> NumberObject::sub(vector<int> num1, vector<int> num2) {
 	vector<int> result;
 	int ten = 0;	//ten is whether the previous calculation had minus off one from the next tens
 
