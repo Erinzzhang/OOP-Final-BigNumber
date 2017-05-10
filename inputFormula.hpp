@@ -19,7 +19,7 @@
 
 using namespace std;
 
-
+//is operator?
 bool inputFormula::isOP(char word){
     if(((int)(word - '0') <= 9 && (int)(word - '0') >= 0) || word == '.'){
         return false;
@@ -28,43 +28,25 @@ bool inputFormula::isOP(char word){
     }
 }
 
+//inputFormula to StrVector
 void inputFormula::toStrVector(string inputStr){
-    char temp= '\0';
     char nextWord = '\0' ;
     string strTemp = "";
-    for (int i = 0; i < inputStr.size(); i++){
-        temp = inputStr[i];
-        //cout << temp << " ";
+    for (int i = 0; i < inputStr.size(); i++)
+    {
+        // nextWord
         if ((i + 1) <= inputStr.size()){
             nextWord = inputStr[i+1];
         }
         
-        if(isOP(temp) == true){
-            if (temp == '('){
-                strTemp = temp;
-                formulaStr.push_back(strTemp);
-                strTemp = "";
-            }else if(temp == '+' || temp == '-' || temp == '*' || temp == '/'){
-                strTemp = temp;
-                formulaStr.push_back(strTemp);
-                strTemp = "";
-            }else if (temp == '='){
-                strTemp = temp;
-                formulaStr.push_back(strTemp);
-                strTemp = "";
-            }else if (temp == ')'){
-                strTemp = temp;
-                formulaStr.push_back(strTemp);
-                strTemp = "";
-                
-            }else{
-                
-            }
-        }else if (isOP(temp) == false ){
-            
-            strTemp += temp;
+        // store number and operator
+        if(isOP(inputStr[i]) == true){
+            strTemp = inputStr[i];
+            formulaStr.push_back(strTemp);
+            strTemp = "";
+        }else if (isOP(inputStr[i]) == false ){
+            strTemp += inputStr[i];
             if (isOP(nextWord) == true){
-                //cout << strTemp << endl;
                 formulaStr.push_back(strTemp);
                 strTemp = "";
             }
@@ -77,9 +59,7 @@ void inputFormula::toStrVector(string inputStr){
 vector<string> inputFormula::toMinFormula(vector<string>tempVector){
     calFormula = tempVector;
     vector <string> minFormula;
-    
     string temp;
-    string ans;
     
     //find the location of minFormula
     endNum = (int)calFormula.size();
@@ -110,6 +90,7 @@ vector<string> inputFormula::toMinFormula(vector<string>tempVector){
     }
     cout << endl;
     */
+    
     //calculate the ans of minFormula
     minFormulaAns = tempAns(minFormula);
     return minFormula;
@@ -119,9 +100,9 @@ vector<string> inputFormula::toMinFormula(vector<string>tempVector){
 vector<string> inputFormula::toNewFormula(vector<string>tempVector){
     //clear newFormula
     newFormula.clear();
+    
     //build newFormula
     for (int i = 0; i < calFormula.size(); i++){
-        
         if (i == startNum - 1 ){
             newFormula.push_back(minFormulaAns);
             i = endNum + 1;
@@ -136,16 +117,21 @@ vector<string> inputFormula::toNewFormula(vector<string>tempVector){
         cout <<  newFormula[i] << " ";
     }
     cout << endl;
+    
+    // recursion : simplify formula
+    newFormula = toMinFormula(newFormula);
     return newFormula;
 }
 
 
 string inputFormula::tempAns(vector<string>minFormula){
-    formulaTemp = minFormula;
     string temp;
     vector<string>::iterator it;
+    
+    formulaTemp = minFormula;
     int size = (int)formulaTemp.size();
     
+    // first : "*","/"
     for (int i = 0 ;i < size; i++){
         temp = formulaTemp[i];
         it = formulaTemp.begin() + i - 1;
@@ -160,8 +146,10 @@ string inputFormula::tempAns(vector<string>minFormula){
         }
         
     }
+
     
     
+    // second : "+","-"
     for (int i = 0 ;i < size; i++){
         temp = formulaTemp[i];
         it = formulaTemp.begin() + i - 1 ;
@@ -181,6 +169,7 @@ string inputFormula::tempAns(vector<string>minFormula){
             
             
         }
+        // initialize i for rescan formula
         i = 0;
         
     }
@@ -188,33 +177,40 @@ string inputFormula::tempAns(vector<string>minFormula){
     return ansNum;
 }
 
-void inputFormula::ans(){
+void inputFormula::toAns(){
+    
+    // count how many "(",")"
     int count = 0;
-    string ans;
     for (int i = 0; i < formulaStr.size(); i++){
         if (formulaStr[i] == "("){
             count ++;
         }
     }
-    newFormula = toMinFormula(formulaStr);
-    newFormula = toNewFormula(calFormula);
     
+    // simplify formula
+    newFormula = toMinFormula(formulaStr);
     for (int i = 0; i < count - 1; i ++){
-        newFormula = toMinFormula(newFormula);
         newFormula = toNewFormula(calFormula);
     }
     
+    // shoe answer
     cout << "Ans: " << minFormulaAns << endl;
     
 }
 
 void inputFormula::printFormula(){
+    
+    /*
+    // number for check
     for (int i = 0 ;i < formulaStr.size(); i++){
         cout << i << "\t";
     }
     cout << endl;
+     */
+    
+    //print formula
     for (int i = 0; i < formulaStr.size(); i++){
-        cout << formulaStr[i] << "\t";
+        cout << formulaStr[i] ;
     }
     cout << endl;
 }
