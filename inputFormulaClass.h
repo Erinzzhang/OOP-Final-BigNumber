@@ -10,11 +10,12 @@
 #include <string>
 #include <vector>
 
+// a class for input formula
 class inputFormula{
 public:
     bool isOP(char);
     void toStrVector(string);
-    void ans();
+    void toAns();
     void printFormula();
     vector<string> toMinFormula(vector<string>);
     vector<string> toNewFormula(vector<string>);
@@ -27,8 +28,7 @@ private:
     vector <string> ansFormula;
     vector <string> newFormula;
     string ansNum,leftNum,rightNum,minFormulaAns;
-    int endNum;
-    int startNum;
+    int startNum,endNum;
     
 };
 
