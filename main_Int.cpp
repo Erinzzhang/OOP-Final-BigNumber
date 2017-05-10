@@ -24,7 +24,7 @@ int main(){
     
     formula.toStrVector(inputStr);
     formula.printFormula();
-    formula.ans();
+    //formula.ans();
     cout << endl;
     
     

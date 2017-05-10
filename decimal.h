@@ -7,6 +7,7 @@ using namespace std;
 class Decimal: public NumberObject {
 public:
 	Decimal();
+    Decimal preoperation(Decimal&, Decimal&);
 
 	Decimal& operator+=(const Decimal& object2) {
 		return *this;
@@ -29,6 +30,6 @@ public:
 	friend istream &operator >> (istream&, Decimal&);	//cin needs to use istream
 	friend ostream &operator << (ostream&, const Decimal&);	//cout overload needs ostream
 private:
-	vector<int> beforePoint;
-	vector<int> afterPoint;
+	string beforePoint;
+	string afterPoint;
 };

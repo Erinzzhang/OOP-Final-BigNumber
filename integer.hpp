@@ -153,8 +153,8 @@ string KaratsubaMultiply(string num1, string num2) {
     return  AddString(AddString(r1,r2),z0);
 }
 
-
-int compare(string a, string b){              //大數比較
+//大數比較
+int compare(string a, string b){
     if(a.length()<b.length()) {
         return 0;
     } else if(a.length()==b.length()) {

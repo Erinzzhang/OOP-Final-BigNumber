@@ -13,7 +13,6 @@
 #include <iostream>
 
 #include "integer.hpp"
-#include "intergerClass.h"
 #include "inputFormulaClass.h"
 
 
