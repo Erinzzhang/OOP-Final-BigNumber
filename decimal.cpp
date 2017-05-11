@@ -125,26 +125,22 @@ Decimal operator/(const Decimal& d1, const Decimal& d2) {
     Decimal lhs = d1, rhs = d2, result, temp;
     
     temp = result.preoperation(lhs, rhs);
-    result = temp.divide(temp.beforePoint, temp.afterPoint);
+    string SResult = temp.divide(temp.beforePoint, temp.afterPoint);
     
-//    if(((int)lhs.afterPoint.size() + (int)rhs.afterPoint.size()) > (int)SResult.size()){
-//        result.beforePoint.push_back('0');
-//        for(int i = 0; i < ((int)lhs.afterPoint.size() + (int)rhs.afterPoint.size()); i++){
-//            if(i >= (int)SResult.size()){
-//                result.afterPoint.insert(result.afterPoint.begin(), '0');
-//            }else{
-//                result.afterPoint.push_back(SResult[i]);
-//            }
-//        }
-//    }else{
-//        for(int i = 0; i < SResult.size(); i++){
-//            if(i < ((int)SResult.size() - ((int)lhs.afterPoint.size() + (int)rhs.afterPoint.size()))){
-//                result.beforePoint.push_back(SResult[i]);
-//            }else{
-//                result.afterPoint.push_back(SResult[i]);
-//            }
-//        }
-//    }
+    bool beforeDot = true;
+    for(int i = 0; i < SResult.size(); i++){
+        if(SResult[i] == '.'){
+            beforeDot = false;
+            i++;
+        }
+        if(beforeDot){
+            result.beforePoint.push_back(SResult[i]);
+        }
+        else{
+            result.afterPoint.push_back(SResult[i]);
+        }
+    }
+    
     return result;
 }
 
@@ -181,8 +177,7 @@ ostream &operator << (ostream& output, const Decimal& d) {
 	return output;
 }
 
-
-Decimal Decimal::divide(string a, string b) {
+string Decimal::divide(string a, string b) {
     Decimal result, x1, up, down, xn;
     string one = "1", temp = b;
     up.beforePoint = a;
@@ -224,6 +219,7 @@ Decimal Decimal::divide(string a, string b) {
     if(result.beforePoint.size() == 0){
         result.beforePoint.push_back('0');
     }
+    string outString = result.beforePoint + "." + result.afterPoint;
     
-    return result;
+    return outString;
 }

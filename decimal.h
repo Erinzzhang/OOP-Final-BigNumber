@@ -8,7 +8,7 @@ class Decimal: public NumberObject {
 public:
 	Decimal();
     Decimal preoperation(Decimal&, Decimal&);
-    Decimal divide(string, string);
+    string divide(string, string);
 
 	Decimal& operator+=(const Decimal& object2) {
 		return *this;
