@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 #include "integer.hpp"
-#include "inputFormula.hpp"
+#include "inputFormula.h"
 
 
 using namespace std;
@@ -24,7 +24,7 @@ int main(){
     
     formula.toStrVector(inputStr);
     formula.printFormula();
-    //formula.ans();
+    formula.toAns();
     cout << endl;
     
     

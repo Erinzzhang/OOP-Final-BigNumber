@@ -9,9 +9,11 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include "NumberObject.h"
+using namespace std;
 
 // a class for input formula
-class inputFormula{
+class inputFormula: public NumberObject{
 public:
     bool isOP(char);
     void toStrVector(string);
@@ -29,7 +31,6 @@ private:
     vector <string> newFormula;
     string ansNum,leftNum,rightNum,minFormulaAns;
     int startNum,endNum;
-    
 };
 
 

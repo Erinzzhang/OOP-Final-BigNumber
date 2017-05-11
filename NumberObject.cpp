@@ -120,6 +120,7 @@ string NumberObject::MinusString(string num1, string num2) {
         return "0";
     }
     
+    //process '-'
     if(num1[0] == '-' && num2[0] == '-'){   // b-a
         num1.erase(num1.begin());
         num2.erase(num2.begin());

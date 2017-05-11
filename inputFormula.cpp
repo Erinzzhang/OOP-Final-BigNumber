@@ -6,16 +6,10 @@
 //  Copyright © 2017年 Erin Zhang. All rights reserved.
 //
 
-#ifndef inputFormula_hpp
-#define inputFormula_hpp
 #include <string>
 #include <vector>
 #include <iostream>
-
-#include "integer.hpp"
-#include "inputFormulaClass.h"
-
-
+#include "inputFormula.h"
 using namespace std;
 
 //is operator?
@@ -141,7 +135,8 @@ string inputFormula::tempAns(vector<string>minFormula){
             formulaTemp.erase(it,it +3);
             formulaTemp.insert( it, ansNum);
             size = (int)formulaTemp.size();
-            
+            //ans = d1 * d2;
+            //push_back(ans)
         }
         
     }
@@ -213,5 +208,3 @@ void inputFormula::printFormula(){
     }
     cout << endl;
 }
-
-#endif /* inputFormula_hpp */
