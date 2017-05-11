@@ -12,5 +12,6 @@ public:
     string ShiftString(string,int);
     string KaratsubaMultiply(string, string);
     int compare(string, string);
-    string* devide(string, string);
+    //string devide(string, string);
+    bool compareValue(string, string);
 };

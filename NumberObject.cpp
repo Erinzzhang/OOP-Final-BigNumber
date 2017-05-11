@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <sstream>
 #include <algorithm>
 using namespace std;
 
@@ -118,6 +119,24 @@ string NumberObject::MinusString(string num1, string num2) {
     if(num1 == num2){
         return "0";
     }
+    
+    if(num1[0] == '-' && num2[0] == '-'){   // b-a
+        num1.erase(num1.begin());
+        num2.erase(num2.begin());
+        string tmp = num1;
+        num1 = num2;
+        num2 = tmp;
+    }else if(num1[0] == '-' && num2[0] != '-'){     // -(a+b)
+        num1.erase(num1.begin());
+        string tmp = AddString(num1, num2);
+        tmp.insert(tmp.begin(), '-');
+        return tmp;
+    }else if(num1[0] != '-' && num2[0] == '-'){     // a+b
+        num2.erase(num2.begin());
+        string tmp = AddString(num1, num2);
+        return tmp;
+    }
+    
     // + or -
     bool positive = true;
     if(len1 < len2 || (len1 == len2 && num1 < num2)){
@@ -199,6 +218,19 @@ string NumberObject::ShiftString(string num,int len){
 
 // Karatsuba快速相乘算法
 string NumberObject::KaratsubaMultiply(string num1, string num2) {
+    bool negative = false;
+    
+    if(num1[0] == '-' && num2[0] == '-'){
+        num1.erase(num1.begin());
+        num2.erase(num2.begin());
+    }else if(num1[0] == '-' && num2[0] != '-'){
+        num1.erase(num1.begin());
+        negative = true;
+    }else if(num1[0] != '-' && num2[0] == '-'){
+        num2.erase(num2.begin());
+        negative = true;
+    }
+    
     int len = MakeSameLen(num1,num2);
     if(len == 0){
         return 0;
@@ -223,7 +255,13 @@ string NumberObject::KaratsubaMultiply(string num1, string num2) {
     string r1 = ShiftString(z2,2*(len - mid));
     // (z1-z2-z0)*10^(m)
     string r2 = ShiftString(MinusString(MinusString(z1,z2),z0),len - mid);
-    return  AddString(AddString(r1,r2),z0);
+    
+    string result = AddString(AddString(r1,r2),z0);
+    if(negative){
+        result.insert(result.begin(), '-');
+    }
+    
+    return result;
 }
 
 //大數比較
@@ -233,19 +271,5 @@ int NumberObject::compare(string a, string b){
     } else if(a.length()==b.length()) {
         if(a<b) return 0;
     }return 1;
-}
-
-string* NumberObject::devide(string a, string b) {
-    string *de = new string[2];
-    de[0]="0"; de[1] = b;
-    string one="1", ten="10";
-    if(!compare(a,b)) return de;
-    while(a[0]!='-') {
-        de[1] = a;
-        a = MinusString(a,b);
-        de[0] = AddString(de[0],one);
-    }
-    de[0] = MinusString(de[0],one);
-    return de;
 }
 

@@ -8,6 +8,7 @@ class Decimal: public NumberObject {
 public:
 	Decimal();
     Decimal preoperation(Decimal&, Decimal&);
+    Decimal divide(string, string);
 
 	Decimal& operator+=(const Decimal& object2) {
 		return *this;
@@ -29,7 +30,7 @@ public:
 
 	friend istream &operator >> (istream&, Decimal&);	//cin needs to use istream
 	friend ostream &operator << (ostream&, const Decimal&);	//cout overload needs ostream
-private:
-	string beforePoint;
+
+    string beforePoint;  //beforePoint.afterPoint
 	string afterPoint;
 };

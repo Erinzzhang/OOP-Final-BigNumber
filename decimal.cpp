@@ -87,17 +87,36 @@ Decimal operator-(const Decimal& d1, const Decimal& d2) {
 Decimal operator*(const Decimal& d1, const Decimal& d2) {
     Decimal lhs = d1, rhs = d2, result, temp;
     
-    temp = result.preoperation(lhs, rhs);
-    string SResult = result.KaratsubaMultiply(temp.beforePoint, temp.afterPoint);
-    
-    for(int i = 0; i < SResult.size(); i++){
-        if(i < ((int)SResult.size() - ((int)lhs.afterPoint.size() + (int)rhs.afterPoint.size()))){
-            result.beforePoint.push_back(SResult[i]);
-        }else{
-            result.afterPoint.push_back(SResult[i]);
-        }
+    //delete zeros after point
+    while(lhs.afterPoint.back() == '0'){
+        lhs.afterPoint.pop_back();
+    }
+    while(rhs.afterPoint.back() == '0'){
+        rhs.afterPoint.pop_back();
     }
     
+    temp = result.preoperation(lhs, rhs);
+    
+    string SResult = result.KaratsubaMultiply(temp.beforePoint, temp.afterPoint);
+    
+    if(((int)lhs.afterPoint.size() + (int)rhs.afterPoint.size()) > (int)SResult.size()){
+        result.beforePoint.push_back('0');
+        for(int i = 0; i < ((int)lhs.afterPoint.size() + (int)rhs.afterPoint.size()); i++){
+            if(i >= (int)SResult.size()){
+                result.afterPoint.insert(result.afterPoint.begin(), '0');
+            }else{
+                result.afterPoint.push_back(SResult[i]);
+            }
+        }
+    }else{
+        for(int i = 0; i < SResult.size(); i++){
+            if(i < ((int)SResult.size() - ((int)lhs.afterPoint.size() + (int)rhs.afterPoint.size()))){
+                result.beforePoint.push_back(SResult[i]);
+            }else{
+                result.afterPoint.push_back(SResult[i]);
+            }
+        }
+    }
     return result;
 }
 
@@ -106,17 +125,26 @@ Decimal operator/(const Decimal& d1, const Decimal& d2) {
     Decimal lhs = d1, rhs = d2, result, temp;
     
     temp = result.preoperation(lhs, rhs);
-    string* SResult = result.devide(temp.beforePoint, temp.afterPoint);
-    cout << SResult[0] << endl;
-    cout << SResult[1] << endl;
-//    for(int i = 0; i < SResult.size(); i++){
-//        if(i < ((int)SResult.size() - ((int)lhs.afterPoint.size() + (int)rhs.afterPoint.size()))){
-//            result.beforePoint.push_back(SResult[i]);
-//        }else{
-//            result.afterPoint.push_back(SResult[i]);
+    result = temp.divide(temp.beforePoint, temp.afterPoint);
+    
+//    if(((int)lhs.afterPoint.size() + (int)rhs.afterPoint.size()) > (int)SResult.size()){
+//        result.beforePoint.push_back('0');
+//        for(int i = 0; i < ((int)lhs.afterPoint.size() + (int)rhs.afterPoint.size()); i++){
+//            if(i >= (int)SResult.size()){
+//                result.afterPoint.insert(result.afterPoint.begin(), '0');
+//            }else{
+//                result.afterPoint.push_back(SResult[i]);
+//            }
+//        }
+//    }else{
+//        for(int i = 0; i < SResult.size(); i++){
+//            if(i < ((int)SResult.size() - ((int)lhs.afterPoint.size() + (int)rhs.afterPoint.size()))){
+//                result.beforePoint.push_back(SResult[i]);
+//            }else{
+//                result.afterPoint.push_back(SResult[i]);
+//            }
 //        }
 //    }
-    
     return result;
 }
 
@@ -151,4 +179,51 @@ ostream &operator << (ostream& output, const Decimal& d) {
     }
     
 	return output;
+}
+
+
+Decimal Decimal::divide(string a, string b) {
+    Decimal result, x1, up, down, xn;
+    string one = "1", temp = b;
+    up.beforePoint = a;
+    down.beforePoint = b;
+    
+    x1.beforePoint.push_back('0');
+    for(int i = 0; i < b.size(); i++) {
+        one.push_back('0');
+        if(i > 0) x1.afterPoint.push_back('0');
+    }
+    
+    for(int j = 0; j < b.size(); j++){
+        for(int i = 1; i < 10; i++) {
+            string num;
+            num.push_back((char)(i + 48));
+            string cmpMulti = result.KaratsubaMultiply(num, temp);
+            string oneTemp = result.MinusString(one, cmpMulti);
+            if(result.compare(oneTemp, temp) == 0){
+                x1.afterPoint.push_back((char)(i + 48));
+                string multiplyTen;
+                multiplyTen.push_back((char)(10 + 48));
+                one = result.KaratsubaMultiply(oneTemp, multiplyTen);
+                break;
+            }
+        }
+    }
+    
+    for(int i = 0; i < a.size() + 1; i++){
+        Decimal sTwo;
+        sTwo.beforePoint.push_back('2');
+        
+        //xn = (sTwo - (x1 * down)) * x1;
+        xn = x1 * down;
+        xn = sTwo - xn;
+        xn = xn * x1;
+        x1 = xn;
+    }
+    result = up * xn;
+    if(result.beforePoint.size() == 0){
+        result.beforePoint.push_back('0');
+    }
+    
+    return result;
 }
