@@ -1,22 +1,22 @@
-#include "NumberObject.h"
+#include "decimal.h"
 #include <string>
 #include <vector>
 using namespace std;
 
 //a class for Complex calculation
-class Complex {
+class Complex: public Decimal {
 public:
     Complex& operator+=(const Complex& obj){
-        return *this
+        return *this;
     }
     Complex& operator-=(const Complex& obj){
-        return *this
+        return *this;
     }
     Complex& operator*=(const Complex& obj){
-        return *this
+        return *this;
     }
     Complex& operator/=(const Complex& obj){
-        return *this
+        return *this;
     }
     
     friend Complex operator+(const Complex&, const Complex&);
@@ -27,6 +27,6 @@ public:
     friend istream &operator >> (istream&, Complex&);
     friend ostream &operator << (ostream&, const Complex&);
 private:
-    string imag;
-    string real;
+    Decimal imag;
+    Decimal real;
 };

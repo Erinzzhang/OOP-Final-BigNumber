@@ -6,7 +6,8 @@ using namespace std;
 
 //decimal constructor function
 Decimal::Decimal(){
-
+    beforePoint = "";
+    afterPoint = "";
 }
 
 //preoperation for decimal calculation
@@ -51,9 +52,28 @@ Decimal Decimal::preoperation(Decimal& lhs, Decimal& rhs) {
 //overload + operator
 Decimal operator+(const Decimal& d1, const Decimal& d2) {
     Decimal lhs = d1, rhs = d2, result, temp;
+    bool negative = false;
+    string SResult;
     
-    temp = result.preoperation(lhs, rhs);
-    string SResult = result.AddString(temp.beforePoint, temp.afterPoint);
+    //process '-'
+    if(lhs.beforePoint[0] == '-' && rhs.beforePoint[0] == '-'){   // -(a+b)
+        lhs.beforePoint.erase(lhs.beforePoint.begin());
+        rhs.beforePoint.erase(rhs.beforePoint.begin());
+        negative = true;
+        temp = result.preoperation(lhs, rhs);
+        SResult = result.AddString(temp.beforePoint, temp.afterPoint);
+    }else if(lhs.beforePoint[0] == '-' && rhs.beforePoint[0] != '-'){     // b-a
+        lhs.beforePoint.erase(lhs.beforePoint.begin());
+        temp = result.preoperation(lhs, rhs);
+        SResult = result.MinusString(temp.afterPoint, temp.beforePoint);
+    }else if(lhs.beforePoint[0] != '-' && rhs.beforePoint[0] == '-'){     // a-b
+        rhs.beforePoint.erase(rhs.beforePoint.begin());
+        temp = result.preoperation(lhs, rhs);
+        SResult = result.MinusString(temp.beforePoint, temp.afterPoint);
+    }else{
+        temp = result.preoperation(lhs, rhs);
+        SResult = result.AddString(temp.beforePoint, temp.afterPoint);
+    }
     
     for(int i = 0; i < SResult.size(); i++){
         if(i < ((int)SResult.size() - (int)lhs.afterPoint.size())){
@@ -63,14 +83,48 @@ Decimal operator+(const Decimal& d1, const Decimal& d2) {
         }
     }
     
+    if(result.beforePoint.size() == 0){
+        result.beforePoint.push_back('0');
+    }
+    
+    //delete the 0 in front of the number
+    reverse(result.beforePoint.begin(), result.beforePoint.end());
+    while(result.beforePoint.back() == '0' && result.beforePoint.size() > 1){
+        result.beforePoint.pop_back();
+    }
+    reverse(result.beforePoint.begin(), result.beforePoint.end());
+    
+    if(negative){
+        result.beforePoint.insert(result.beforePoint.begin(), '-');
+    }
+
     return result;
 }
 
 Decimal operator-(const Decimal& d1, const Decimal& d2) {
     Decimal lhs = d1, rhs = d2, result, temp;
+    string SResult;
+    bool negative = false;
     
-    temp = result.preoperation(lhs, rhs);
-    string SResult = result.MinusString(temp.beforePoint, temp.afterPoint);
+    //process '-'
+    if(lhs.beforePoint[0] == '-' && rhs.beforePoint[0] == '-'){   // b-a
+        lhs.beforePoint.erase(lhs.beforePoint.begin());
+        rhs.beforePoint.erase(rhs.beforePoint.begin());
+        temp = result.preoperation(lhs, rhs);
+        SResult = result.MinusString(temp.afterPoint, temp.beforePoint);
+    }else if(lhs.beforePoint[0] == '-' && rhs.beforePoint[0] != '-'){     // -(a+b)
+        lhs.beforePoint.erase(lhs.beforePoint.begin());
+        negative = true;
+        temp = result.preoperation(lhs, rhs);
+        SResult = result.AddString(temp.beforePoint, temp.afterPoint);
+    }else if(lhs.beforePoint[0] != '-' && rhs.beforePoint[0] == '-'){     // a+b
+        rhs.beforePoint.erase(rhs.beforePoint.begin());
+        temp = result.preoperation(lhs, rhs);
+        SResult = result.AddString(temp.beforePoint, temp.afterPoint);
+    }else{
+        temp = result.preoperation(lhs, rhs);
+        SResult = result.MinusString(temp.beforePoint, temp.afterPoint);
+    }
     
     for(int i = 0; i < SResult.size(); i++){
         if(i < ((int)SResult.size() - (int)lhs.afterPoint.size())){
@@ -78,6 +132,21 @@ Decimal operator-(const Decimal& d1, const Decimal& d2) {
         }else{
             result.afterPoint.push_back(SResult[i]);
         }
+    }
+    
+    if(result.beforePoint.size() == 0){
+        result.beforePoint.push_back('0');
+    }
+    
+    //delete the 0 in front of the number
+    reverse(result.beforePoint.begin(), result.beforePoint.end());
+    while(result.beforePoint.back() == '0' && result.beforePoint.size() > 1){
+        result.beforePoint.pop_back();
+    }
+    reverse(result.beforePoint.begin(), result.beforePoint.end());
+
+    if(negative){
+        result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
     
     return result;
@@ -86,6 +155,18 @@ Decimal operator-(const Decimal& d1, const Decimal& d2) {
 
 Decimal operator*(const Decimal& d1, const Decimal& d2) {
     Decimal lhs = d1, rhs = d2, result, temp;
+    bool negative = false;
+    
+    if(lhs.beforePoint[0] == '-' && rhs.beforePoint[0] == '-'){
+        lhs.beforePoint.erase(lhs.beforePoint.begin());
+        rhs.beforePoint.erase(rhs.beforePoint.begin());
+    }else if(lhs.beforePoint[0] == '-' && rhs.beforePoint[0] != '-'){
+        lhs.beforePoint.erase(lhs.beforePoint.begin());
+        negative = true;
+    }else if(lhs.beforePoint[0] != '-' && rhs.beforePoint[0] == '-'){
+        rhs.beforePoint.erase(rhs.beforePoint.begin());
+        negative = true;
+    }
     
     //delete zeros after point
     while(lhs.afterPoint.back() == '0'){
@@ -117,16 +198,45 @@ Decimal operator*(const Decimal& d1, const Decimal& d2) {
             }
         }
     }
+    
+    if(result.beforePoint.size() == 0){
+        result.beforePoint.push_back('0');
+    }
+    
+    //delete the 0 in front of the number
+    reverse(result.beforePoint.begin(), result.beforePoint.end());
+    while(result.beforePoint.back() == '0' && result.beforePoint.size() > 1){
+        result.beforePoint.pop_back();
+    }
+    reverse(result.beforePoint.begin(), result.beforePoint.end());
+    
+    if(negative){
+        result.beforePoint.insert(result.beforePoint.begin(), '-');
+    }
+    
     return result;
 }
 
 
 Decimal operator/(const Decimal& d1, const Decimal& d2) {
     Decimal lhs = d1, rhs = d2, result, temp;
+    bool negative = false;
+    
+    if(lhs.beforePoint[0] == '-' && rhs.beforePoint[0] == '-'){
+        lhs.beforePoint.erase(lhs.beforePoint.begin());
+        rhs.beforePoint.erase(rhs.beforePoint.begin());
+    }else if(lhs.beforePoint[0] == '-' && rhs.beforePoint[0] != '-'){
+        lhs.beforePoint.erase(lhs.beforePoint.begin());
+        negative = true;
+    }else if(lhs.beforePoint[0] != '-' && rhs.beforePoint[0] == '-'){
+        rhs.beforePoint.erase(rhs.beforePoint.begin());
+        negative = true;
+    }
     
     temp = result.preoperation(lhs, rhs);
+
     string SResult = temp.divide(temp.beforePoint, temp.afterPoint);
-    
+
     bool beforeDot = true;
     for(int i = 0; i < SResult.size(); i++){
         if(SResult[i] == '.'){
@@ -139,6 +249,17 @@ Decimal operator/(const Decimal& d1, const Decimal& d2) {
         else{
             result.afterPoint.push_back(SResult[i]);
         }
+    }
+    
+    //delete the 0 in front of the number
+    reverse(result.beforePoint.begin(), result.beforePoint.end());
+    while(result.beforePoint.back() == '0' && result.beforePoint.size() > 1){
+        result.beforePoint.pop_back();
+    }
+    reverse(result.beforePoint.begin(), result.beforePoint.end());
+    
+    if(negative){
+        result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
     
     return result;
@@ -179,16 +300,30 @@ ostream &operator << (ostream& output, const Decimal& d) {
 
 string Decimal::divide(string a, string b) {
     Decimal result, x1, up, down, xn;
-    string one = "1", temp = b;
+    bool negative = false;
+
+    if(a[0] == '-' && b[0] == '-'){
+        a.erase(a.begin());
+        b.erase(b.begin());
+    }else if(a[0] == '-' && b[0] != '-'){
+        a.erase(a.begin());
+        negative = true;
+    }else if(a[0] != '-' && b[0] == '-'){
+        b.erase(b.begin());
+        negative = true;
+    }
+
+    string one = "1", temp = b, ten = "10";
     up.beforePoint = a;
     down.beforePoint = b;
+    ten = result.KaratsubaMultiply(temp, ten);
     
     x1.beforePoint.push_back('0');
-    for(int i = 0; i < b.size(); i++) {
+    for(int i = 0; i < b.size() - 1; i++) {
         one.push_back('0');
         if(i > 0) x1.afterPoint.push_back('0');
     }
-    
+
     for(int j = 0; j < b.size(); j++){
         for(int i = 1; i < 10; i++) {
             string num;
@@ -196,10 +331,16 @@ string Decimal::divide(string a, string b) {
             string cmpMulti = result.KaratsubaMultiply(num, temp);
             string oneTemp = result.MinusString(one, cmpMulti);
             if(result.compare(oneTemp, temp) == 0){
-                x1.afterPoint.push_back((char)(i + 48));
                 string multiplyTen;
                 multiplyTen.push_back((char)(10 + 48));
-                one = result.KaratsubaMultiply(oneTemp, multiplyTen);
+                if(oneTemp[0] == '-'){
+                    i--;
+                    x1.afterPoint.push_back((char)(i + 48));
+                    one = result.KaratsubaMultiply(one, multiplyTen);
+                }else{
+                    x1.afterPoint.push_back((char)(i + 48));
+                    one = result.KaratsubaMultiply(oneTemp, multiplyTen);
+                }
                 break;
             }
         }
@@ -219,6 +360,11 @@ string Decimal::divide(string a, string b) {
     if(result.beforePoint.size() == 0){
         result.beforePoint.push_back('0');
     }
+    
+    if(negative){
+        result.beforePoint.insert(result.beforePoint.begin(), '-');
+    }
+    
     string outString = result.beforePoint + "." + result.afterPoint;
     
     return outString;

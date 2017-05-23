@@ -178,6 +178,7 @@ string NumberObject::MinusString(string num1, string num2) {
 }
 // big number add function
 string NumberObject::AddString(string num1,string num2){
+    bool negative = false;
     int len1 = (int)num1.length();
     int len2 = (int)num2.length();
     // 容錯處理
@@ -187,6 +188,22 @@ string NumberObject::AddString(string num1,string num2){
     if(len2 <= 0){
         return num1;
     }
+    
+    //process '-'
+    if(num1[0] == '-' && num2[0] == '-'){   // -(a+b)
+        num1.erase(num1.begin());
+        num2.erase(num2.begin());
+        negative = true;
+    }else if(num1[0] == '-' && num2[0] != '-'){     // b-a
+        num1.erase(num1.begin());
+        string tmp = MinusString(num2, num1);
+        return tmp;
+    }else if(num1[0] != '-' && num2[0] == '-'){     // a-b
+        num2.erase(num2.begin());
+        string tmp = MinusString(num1, num2);
+        return tmp;
+    }
+    
     string result;
     int i = len1-1,j = len2-1;
     int a,b,sum,carry = 0;
@@ -202,6 +219,11 @@ string NumberObject::AddString(string num1,string num2){
         --i;
         --j;
     }
+    
+    if(negative){
+        result.insert(result.begin(), '-');
+    }
+    
     return result;
 }
 
@@ -258,6 +280,7 @@ string NumberObject::KaratsubaMultiply(string num1, string num2) {
     string r2 = ShiftString(MinusString(MinusString(z1,z2),z0),len - mid);
     
     string result = AddString(AddString(r1,r2),z0);
+    
     if(negative){
         result.insert(result.begin(), '-');
     }
@@ -265,12 +288,18 @@ string NumberObject::KaratsubaMultiply(string num1, string num2) {
     return result;
 }
 
-//大數比較
+//大數比較 a >= b return 1
 int NumberObject::compare(string a, string b){
+    if(a[0] == '-' && b[0] !='-'){
+        return 0;
+    }
+    if(a[0] != '-' && b[0] =='-'){
+        return 1;
+    }
     if(a.length()<b.length()) {
         return 0;
     } else if(a.length()==b.length()) {
         if(a<b) return 0;
-    }return 1;
+    } return 1;
 }
 
