@@ -26,6 +26,8 @@ public:
     
     friend istream &operator >> (istream&, Complex&);
     friend ostream &operator << (ostream&, const Complex&);
+    
+    Complex Power(Complex, string);
 private:
     Decimal imag;
     Decimal real;

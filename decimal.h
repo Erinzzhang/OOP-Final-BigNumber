@@ -31,6 +31,8 @@ public:
 	friend istream &operator >> (istream&, Decimal&);	//cin needs to use istream
 	friend ostream &operator << (ostream&, const Decimal&);	//cout overload needs ostream
 
+    Decimal Power(Decimal, string);
+    
     string beforePoint;  //beforePoint.afterPoint
 	string afterPoint;
 };

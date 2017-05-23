@@ -148,3 +148,13 @@ ostream &operator << (ostream& output, const Complex& c){
     output << "i";
     return output;
 }
+
+Complex Complex::Power(Complex base, string times){
+    Complex result = base;
+    string one = "1", loop = "1";
+    while(compare(loop, times) != 1){
+        result = result * base;
+        loop = AddString(loop, one);
+    }
+    return result;
+}

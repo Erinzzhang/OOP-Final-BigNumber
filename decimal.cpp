@@ -369,3 +369,16 @@ string Decimal::divide(string a, string b) {
     
     return outString;
 }
+
+Decimal Decimal::Power(Decimal base, string times){
+    Decimal result = base;
+    string one = "1", loop = "1";
+    cout << "loop = " << loop << endl;
+    while(compare(loop, times) != 1){
+        result = result * base;
+        loop = AddString(loop, one);
+        cout << "loop = " << loop << endl;
+        
+    }
+    return result;
+}
