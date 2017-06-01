@@ -298,10 +298,92 @@ ostream &operator << (ostream& output, const Decimal& d) {
 	return output;
 }
 
-string Decimal::divide(string a, string b) {
-    Decimal result, x1, up, down, xn;
-    bool negative = false;
+//string Decimal::divide(string a, string b) {
+//    Decimal result, x1, up, down, xn;
+//    bool negative = false;
+//
+//    if(a[0] == '-' && b[0] == '-'){
+//        a.erase(a.begin());
+//        b.erase(b.begin());
+//    }else if(a[0] == '-' && b[0] != '-'){
+//        a.erase(a.begin());
+//        negative = true;
+//    }else if(a[0] != '-' && b[0] == '-'){
+//        b.erase(b.begin());
+//        negative = true;
+//    }
+//
+//    string one = "1", temp = b, ten = "10";
+//    up.beforePoint = a;
+//    down.beforePoint = b;
+//    cout << temp << endl;
+//    temp = result.KaratsubaMultiply(one, temp);
+//    cout << temp << endl;
+//    x1.beforePoint.push_back('0');
+//    for(int i = 0; i < temp.length() - 1; i++) {
+//        one.push_back('0');
+//        if(i > 0) x1.afterPoint.push_back('0');
+//        //if((b.size()-1) == 0) x1.afterPoint.push_back('0');
+//    }
+//    
+//    cout << one << endl;
+//    
+//    for(int j = 0; j < b.size(); j++){
+//        for(int i = 1; i < 10; i++) {
+//            string num;
+//            num.push_back((char)(i + 48));
+//            string cmpMulti = result.KaratsubaMultiply(num, temp);
+//            string oneTemp = result.MinusString(one, cmpMulti);
+//            if(result.compare(oneTemp, temp) == 0){
+//                string multiplyTen;
+//                multiplyTen.push_back((char)(10 + 48));
+//                if(oneTemp[0] == '-'){
+//                    i--;
+//                    x1.afterPoint.push_back((char)(i + 48));
+//                    one = result.KaratsubaMultiply(one, multiplyTen);
+//                }else{
+//                    x1.afterPoint.push_back((char)(i + 48));
+//                    one = result.KaratsubaMultiply(oneTemp, multiplyTen);
+//                }
+//                break;
+//            }
+//        }
+//    }
+//    
+//    cout << one << endl;
+//    
+//    for(int i = 0; i < a.size() + 1; i++){
+//        Decimal sTwo;
+//        sTwo.beforePoint.push_back('2');
+//        
+//        //xn = (sTwo - (x1 * down)) * x1;
+//        xn = x1 * down;
+//        cout << x1 << "," << down << endl;
+//        cout << xn << endl;
+//        xn = sTwo - xn;
+//        cout << xn << endl;
+//        xn = xn * x1;
+//        cout << xn << endl;
+//        x1 = xn;
+//    }
+//    result = up * xn;
+//    if(result.beforePoint.size() == 0){
+//        result.beforePoint.push_back('0');
+//    }
+//    
+//    if(negative){
+//        result.beforePoint.insert(result.beforePoint.begin(), '-');
+//    }
+//    
+//    string outString = result.beforePoint + "." + result.afterPoint;
+//    
+//    return outString;
+//}
 
+string Decimal::divide(string a, string b) {
+    Decimal result, x1;
+    bool negative = false;
+    
     if(a[0] == '-' && b[0] == '-'){
         a.erase(a.begin());
         b.erase(b.begin());
@@ -312,61 +394,59 @@ string Decimal::divide(string a, string b) {
         b.erase(b.begin());
         negative = true;
     }
-
-    string one = "1", temp = b, ten = "10";
-    up.beforePoint = a;
-    down.beforePoint = b;
-    ten = result.KaratsubaMultiply(temp, ten);
     
-    x1.beforePoint.push_back('0');
-    for(int i = 0; i < b.size() - 1; i++) {
-        one.push_back('0');
-        if(i > 0) x1.afterPoint.push_back('0');
+    string top, temp = b, ten = "10";
+    a = result.KaratsubaMultiply("1", a);   //clear the zeros before (a)
+    temp = result.KaratsubaMultiply("1", temp);     //clear the zeros before temp
+    top.push_back(a[0]);
+    
+    
+    for(int i = 0; i < temp.length() - 1; i++) {
+        if(a.length()-1 > i){
+            top.push_back(a[i+1]);
+        }else if((a.length() - 1) == i){
+            top.push_back('0');
+            x1.beforePoint.push_back('0');
+        }else{
+            top.push_back('0');
+            x1.afterPoint.push_back('0');
+        }
     }
-
-    for(int j = 0; j < b.size(); j++){
-        for(int i = 1; i < 10; i++) {
+    
+    int topLength = (int)top.length();
+    for(int j = topLength; j <= 1000; j++){
+        for(int i = 1; i < 10; i++) {   //multiply until the gap between cmpMulti and top is less than temp
             string num;
             num.push_back((char)(i + 48));
-            string cmpMulti = result.KaratsubaMultiply(num, temp);
-            string oneTemp = result.MinusString(one, cmpMulti);
-            if(result.compare(oneTemp, temp) == 0){
-                string multiplyTen;
-                multiplyTen.push_back((char)(10 + 48));
-                if(oneTemp[0] == '-'){
-                    i--;
+            string cmpMulti = result.KaratsubaMultiply(num, temp);  //multiply starting from one
+            string topTemp = result.MinusString(top, cmpMulti);     //minus by the multiplied number
+            
+            //if topTemp is smaller than temp, enter
+            if(result.compare(topTemp, temp) == 0){
+                if(topTemp[0] == '-') i--; //minus i by one if the topTemp is a negative number -> i = 0
+                else top = topTemp;  //cover top with the remaining value if topTemp is positive
+                
+                if(j < a.length()){     //if there is more digits in (a), read another digit from (a), and add i to beforePoint
+                    top.push_back(a[j]);
+                    x1.beforePoint.push_back((char)(i + 48));
+                }else if(j == a.length()){  //if the same length, push i at beforePoint and add 0 to top
+                    top = result.KaratsubaMultiply(top, "10");
+                    x1.beforePoint.push_back((char)(i + 48));
+                }else{      //push i at afterPoint and add 0 to top
+                    top = result.KaratsubaMultiply(top, "10");
                     x1.afterPoint.push_back((char)(i + 48));
-                    one = result.KaratsubaMultiply(one, multiplyTen);
-                }else{
-                    x1.afterPoint.push_back((char)(i + 48));
-                    one = result.KaratsubaMultiply(oneTemp, multiplyTen);
                 }
+                top = result.KaratsubaMultiply(top, "1");
                 break;
             }
         }
     }
     
-    for(int i = 0; i < a.size() + 1; i++){
-        Decimal sTwo;
-        sTwo.beforePoint.push_back('2');
-        
-        //xn = (sTwo - (x1 * down)) * x1;
-        xn = x1 * down;
-        xn = sTwo - xn;
-        xn = xn * x1;
-        x1 = xn;
-    }
-    result = up * xn;
-    if(result.beforePoint.size() == 0){
-        result.beforePoint.push_back('0');
-    }
-    
     if(negative){
-        result.beforePoint.insert(result.beforePoint.begin(), '-');
+        x1.beforePoint.insert(x1.beforePoint.begin(), '-');
     }
     
-    string outString = result.beforePoint + "." + result.afterPoint;
-    
+    string outString = x1.beforePoint + "." + x1.afterPoint;
     return outString;
 }
 
