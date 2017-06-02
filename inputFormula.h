@@ -6,10 +6,11 @@
 //  Copyright © 2017年 Erin Zhang. All rights reserved.
 //
 
+#include "NumberObject.h"
 #include <stdio.h>
 #include <string>
 #include <vector>
-#include "NumberObject.h"
+
 using namespace std;
 
 // a class for input formula

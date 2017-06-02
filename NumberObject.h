@@ -15,4 +15,6 @@ public:
     int compare(string, string);
     //string divide(string, string);
     bool compareValue(string, string);
+    
+    
 };
