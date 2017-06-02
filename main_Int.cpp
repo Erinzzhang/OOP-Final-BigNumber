@@ -12,25 +12,25 @@ using namespace std;
 
 
 int main(){
-//    Integer I1, I2,I4;
-//    I1 = "50";
-//    I2 = "100";
-//    I4 = I2;
-//    Integer I3("10");
-//    Integer I5 = "10";
-//    cout << I5 << endl;
-//    cout << I1 << " " << I2 << " " << I4 << endl;
-//    cout << I1 + I2 << endl;
-//    cout << I1 - I2 << endl;
-//    cout << I1 * I2 << endl;
-//    cout << I1 / I2 << endl;
+    Integer I1, I2,I4;
+    I1 = "250";
+    I2 = "100";
+    I4 = I2;
+    Integer I3("10");
+    Integer I5 = "10";
+    cout << I5 << endl;
+    cout << I1 << " " << I2 << " " << I4 << endl;
+    cout << I1 + I2 << endl;
+    cout << I1 - I2 << endl;
+    cout << I1 * I2 << endl;
+    cout << I1 / I2 << endl;
 
     
-        Decimal d1, d2;
-        cin >> d1 >> d2;
-        cout << d1 - d2 << endl;
-        cout << d1 * d2 << endl;
-        cout << d1/d2 << endl;
+//        Decimal d1, d2;
+//        cin >> d1 >> d2;
+//        cout << d1 - d2 << endl;
+//        cout << d1 * d2 << endl;
+//        cout << d1/d2 << endl;
     
 //    Complex c1, c2;
 //    cin >> c1;

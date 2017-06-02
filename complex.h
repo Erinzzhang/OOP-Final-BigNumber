@@ -1,4 +1,4 @@
-#include "decimal.h"
+#include "integer.h"
 #include <string>
 #include <vector>
 using namespace std;
