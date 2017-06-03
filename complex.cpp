@@ -185,6 +185,8 @@ Complex& Complex::operator=(const Integer& rhs)
     return *this;
 }
 
+
+//overload + operator
 Complex operator+(const Complex& lhs, const Complex& rhs) {
     Complex result;
     result = result.complexAdd(lhs, rhs);
@@ -221,24 +223,114 @@ Complex operator+(const Complex& lhs, const Integer& rhs) {
 
 
 
+//overload - operator
 Complex operator-(const Complex& lhs, const Complex& rhs){
     Complex result;
     result = result.complexMinus(lhs, rhs);
     return result;
 }
 
+Complex operator-(const Complex& lhs, const Decimal& rhs) {
+    Complex result,tempComplex;
+    tempComplex = rhs;  // convert Decimal to Complex
+    result = result.complexMinus(lhs, tempComplex);
+    return result;
+}
+
+Complex operator-(const Decimal& lhs, const Complex& rhs) {
+    Complex result,tempComplex;
+    tempComplex = lhs;  // convert Decimal to Complex
+    result = result.complexMinus(tempComplex, rhs);
+    return result;
+}
+
+Complex operator-(const Integer& lhs, const Complex& rhs) {
+    Complex result,tempComplex;
+    tempComplex = lhs;  // convert Integer to Complex
+    result = result.complexMinus(tempComplex, rhs);
+    return result;
+}
+
+Complex operator-(const Complex& lhs, const Integer& rhs) {
+    Complex result,tempComplex;
+    tempComplex = rhs;  // convert Integer to Complex
+    result = result.complexMinus(lhs, tempComplex);
+    return result;
+}
+
+
+//overload * operator
 Complex operator*(const Complex& lhs, const Complex& rhs){
     Complex result;
     result = result.complexMultiply(lhs, rhs);
     return result;
 }
 
+Complex operator*(const Complex& lhs, const Decimal& rhs) {
+    Complex result,tempComplex;
+    tempComplex = rhs;  // convert Decimal to Complex
+    result = result.complexMultiply(lhs, tempComplex);
+    return result;
+}
+
+Complex operator*(const Decimal& lhs, const Complex& rhs) {
+    Complex result,tempComplex;
+    tempComplex = lhs;  // convert Decimal to Complex
+    result = result.complexMultiply(tempComplex, rhs);
+    return result;
+}
+
+Complex operator*(const Integer& lhs, const Complex& rhs) {
+    Complex result,tempComplex;
+    tempComplex = lhs;  // convert Integer to Complex
+    result = result.complexMultiply(tempComplex, rhs);
+    return result;
+}
+
+Complex operator*(const Complex& lhs, const Integer& rhs) {
+    Complex result,tempComplex;
+    tempComplex = rhs;  // convert Integer to Complex
+    result = result.complexMultiply(lhs, tempComplex);
+    return result;
+}
+
+
+//overload / operator
 Complex operator/(const Complex& top, const Complex& bottom){
     Complex result;
     result = result.complexDivide(top, bottom);
     return result;
 }
 
+Complex operator/(const Complex& top, const Decimal& bottom) {
+    Complex result,tempComplex;
+    tempComplex = bottom;  // convert Decimal to Complex
+    result = result.complexDivide(top, tempComplex);
+    return result;
+}
+
+Complex operator/(const Decimal& top, const Complex& bottom) {
+    Complex result,tempComplex;
+    tempComplex = top;  // convert Decimal to Complex
+    result = result.complexDivide(tempComplex, bottom);
+    return result;
+}
+
+Complex operator/(const Integer& top, const Complex& bottom) {
+    Complex result,tempComplex;
+    tempComplex = top;  // convert Integer to Complex
+    result = result.complexDivide(tempComplex, bottom);
+    return result;
+}
+
+Complex operator/(const Complex& top, const Integer& bottom) {
+    Complex result,tempComplex;
+    tempComplex = bottom;  // convert Integer to Complex
+    result = result.complexDivide(top, tempComplex);
+    return result;
+}
+
+//overload >> operator
 istream &operator >> (istream& input, Complex& c){
     string s;
     stringstream ss;
@@ -293,6 +385,7 @@ istream &operator >> (istream& input, Complex& c){
     return input;
 }
 
+//overload << operator
 ostream &operator << (ostream& output, const Complex& c){
     for(int i = 0; i < c.complpexReal.beforePoint.size(); i++){
         output << c.complpexReal.beforePoint[i];

@@ -17,7 +17,7 @@ public:
     
     friend ostream &operator << (ostream&, const NumberObject&);	//cout overload needs ostream
     
-
     string imag;
     string real;
 };
+

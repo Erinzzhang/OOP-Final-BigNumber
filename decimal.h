@@ -39,8 +39,16 @@ public:
     friend Decimal operator+(const Decimal&, const Integer&);
     
 	friend Decimal operator-(const Decimal&, const Decimal&);
+    friend Decimal operator-(const Integer&, const Decimal&);
+    friend Decimal operator-(const Decimal&, const Integer&);
+    
 	friend Decimal operator*(const Decimal&, const Decimal&);
+    friend Decimal operator*(const Integer&, const Decimal&);
+    friend Decimal operator*(const Decimal&, const Integer&);
+    
     friend Decimal operator/(const Decimal&, const Decimal&);
+    friend Decimal operator/(const Integer&, const Decimal&);
+    friend Decimal operator/(const Decimal&, const Integer&);
  
     
 	friend istream &operator >> (istream&, Decimal&);	//cin needs to use istream

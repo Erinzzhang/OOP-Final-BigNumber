@@ -30,13 +30,13 @@ public:
     Complex& operator = (const Decimal& rhs);
     Complex& operator = (const Integer& rhs);
     
-    
+
     friend Complex operator+(const Complex&, const Complex&);
     friend Complex operator+(const Complex&, const Decimal&);
     friend Complex operator+(const Decimal&, const Complex&);
     friend Complex operator+(const Complex&, const Integer&);
     friend Complex operator+(const Integer&, const Complex&);
-    
+
     friend Complex operator-(const Complex&, const Complex&);
     friend Complex operator-(const Complex&, const Decimal&);
     friend Complex operator-(const Decimal&, const Complex&);

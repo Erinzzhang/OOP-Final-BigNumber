@@ -101,6 +101,21 @@ Decimal operator-(const Decimal& d1, const Decimal& d2) {
     return result;
 }
 
+Decimal operator-(const Decimal& lhs, const Integer& rhs) {
+    Decimal result,tempDecimal;
+    tempDecimal = rhs;  // convert Integer to Complex
+    result = result.decimalMinus(lhs, tempDecimal);
+    return result;
+}
+
+Decimal operator-(const Integer& lhs, const Decimal& rhs) {
+    Decimal result,tempDecimal;
+    tempDecimal = lhs;  // convert Integer to Complex
+    cout << "tmep:" << tempDecimal << endl;
+    result = result.decimalMinus(tempDecimal, rhs);
+    return result;
+}
+
 //overload * operator
 Decimal operator*(const Decimal& d1, const Decimal& d2) {
     Decimal result;
@@ -108,10 +123,38 @@ Decimal operator*(const Decimal& d1, const Decimal& d2) {
     return result;
 }
 
+Decimal operator*(const Decimal& lhs, const Integer& rhs) {
+    Decimal result,tempDecimal;
+    tempDecimal = rhs;  // convert Integer to Complex
+    result = result.decimalMultiply(lhs, tempDecimal);
+    return result;
+}
+
+Decimal operator*(const Integer& lhs, const Decimal& rhs) {
+    Decimal result,tempDecimal;
+    tempDecimal = lhs;  // convert Integer to Complex
+    result = result.decimalMultiply(tempDecimal, rhs);
+    return result;
+}
+
 //overload / operator
 Decimal operator/(const Decimal& d1, const Decimal& d2) {
     Decimal result;
     result = result.decimalDivide(d1, d2);
+    return result;
+}
+
+Decimal operator/(const Decimal& lhs, const Integer& rhs) {
+    Decimal result,tempDecimal;
+    tempDecimal = rhs;  // convert Integer to Complex
+    result = result.decimalDivide(lhs, tempDecimal);
+    return result;
+}
+
+Decimal operator/(const Integer& lhs, const Decimal& rhs) {
+    Decimal result,tempDecimal;
+    tempDecimal = lhs;  // convert Integer to Complex
+    result = result.decimalDivide(tempDecimal, rhs);
     return result;
 }
 
@@ -293,8 +336,8 @@ Decimal Decimal::decimalMinus(const Decimal& d1, const Decimal& d2){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
     
-    
-    result.real = result.beforePoint + "." + result.afterPoint;
+//    cout  << "result.beforePoint: " << result.beforePoint << endl;
+    result.real = result.beforePoint + "." + result.afterPoint;     // bug: 100.0 - 100.1 = -.1 ,need:-0.1
     return result;
 
     
@@ -412,7 +455,7 @@ Decimal Decimal::decimalDivide(const Decimal& d1, const Decimal& d2){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
     
-    
+
     result.real = result.beforePoint + "." + result.afterPoint;
     return result;
 
