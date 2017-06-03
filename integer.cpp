@@ -14,49 +14,71 @@ using namespace std;
 
 //Integer constructor function
 Integer::Integer(){
-    value = "";
+    real = "";
+}
+
+Integer::Integer(const char *number){
+    string temp(number);
+    real = number;
+}
+
+// A simplistic implementation of operator= (see better implementation below)
+Integer& Integer::operator=(const Integer& rhs)
+{
+    // do the copy
+    real = rhs.real;
+    // return the existing object so we can chain this operator
+    return *this;
 }
 
 
 //overload + operator
 Integer operator+(const Integer& lhs, const Integer& rhs) {
     Integer result;
-    result.value = result.AddString(lhs.value,rhs.value);
+    result.real = result.AddString(lhs.real,rhs.real);
     return result;
 }
 
+//overload - operator
 Integer operator-(const Integer& lhs, const Integer& rhs) {
     Integer result;
-    result.value = result.MinusString(lhs.value,rhs.value);
+    result.real = result.MinusString(lhs.real,rhs.real);
     return result;
 }
 
-
+//overload * operator
 Integer operator*(const Integer& lhs, const Integer& rhs) {
     Integer result;
-    result.value = result.KaratsubaMultiply(lhs.value,rhs.value);
+    result.real = result.KaratsubaMultiply(lhs.real,rhs.real);
     return result;
 }
 
-
+//overload / operator
 Integer operator/(const Integer& lhs, const Integer& rhs) {
     Integer result;
-    result.value = result.divide(lhs.value, rhs.value);
+    if (rhs.real != "0"){
+        result.real = result.integerDivide(lhs.real, rhs.real);
+    }else{
+        cout << "can't divide." << endl;
+    }
+    
     return result;
 }
 
+//overload << operator
 std::ostream &operator<<(std::ostream &os, Integer const &IntegerNum) {
-    return os << IntegerNum.value;
+    return os << IntegerNum.real;
 }
 
+//overload >> operator
 std::istream& operator >> (istream& is, Integer& IntegerNum)
 {
-    is >> IntegerNum.value;
+    is >> IntegerNum.real;
     return is;
 }
 
 
-string Integer::divide(string a, string b) {
+string Integer::integerDivide(string a, string b) {
     //string lhs,rhs;
     Decimal lhs, rhs, temp;
     Integer ans;
@@ -68,9 +90,9 @@ string Integer::divide(string a, string b) {
     temp = temp.preoperation(lhs, rhs);
     string result = temp.divide(temp.beforePoint, temp.afterPoint);
     //cout << "result: " << result;
-    ans.value = "";
+    ans.real = "";
     for (int i = 0; i < result.size() ; i++){
-        ans.value = ans.value + result[i];
+        ans.real = ans.real + result[i];
     }
     return result;
     

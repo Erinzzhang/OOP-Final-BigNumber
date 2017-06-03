@@ -303,6 +303,17 @@ int NumberObject::compare(string a, string b){
     } return 1;
 }
 
+std::ostream &operator<<(std::ostream &os, NumberObject const &NumberObject) {
+    string printStr;
+    if(NumberObject.imag.size() == 0){
+        printStr = NumberObject.real;
+    }else{
+        printStr = NumberObject.real + "+" + NumberObject.imag + "i";
+    }
+
+    return os << printStr;
+}
+
 string NumberObject::Power(string base, string times){
     string result = base, one = "1", loop = "1";
     while(compare(loop, times) != 1){

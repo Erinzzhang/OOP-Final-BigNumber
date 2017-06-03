@@ -13,8 +13,11 @@ public:
     string KaratsubaMultiply(string, string);
     string Power(string, string);
     int compare(string, string);
-    //string divide(string, string);
     bool compareValue(string, string);
     
+    friend ostream &operator << (ostream&, const NumberObject&);	//cout overload needs ostream
     
+
+    string imag;
+    string real;
 };

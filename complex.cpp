@@ -2,43 +2,240 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
+
 using namespace std;
+
+Complex::Complex(){
+    complexImag.beforePoint = "0";
+    complexImag.afterPoint = "0";
+    complpexReal.beforePoint = "0";
+    complpexReal.afterPoint = "0";
+    real = complpexReal.beforePoint + "." + complpexReal.afterPoint;
+    imag = complexImag.beforePoint + "." + complexImag.afterPoint;
+}
+
+Complex::Complex(const char *number){
+    string temp(number);
+    stringstream ss;
+    bool afterP = false;
+    char splitChar;
+    ss << temp;
+    ss >> splitChar;
+    complpexReal.beforePoint.clear();
+    complpexReal.afterPoint.clear();
+    //input to decimal class
+    if(splitChar == '-'){
+        complpexReal.beforePoint.push_back(splitChar);
+        ss >> splitChar;
+    }
+    
+    while(splitChar != '+' && splitChar != '-'){
+        if(splitChar == '.'){
+            afterP = true;
+            ss >> splitChar;
+        }
+        if(afterP){
+            complpexReal.afterPoint.push_back(splitChar);
+        }else{
+            complpexReal.beforePoint.push_back(splitChar);
+        }
+        if(!(ss >> splitChar)){
+            break;
+        }
+    }
+    
+    
+    if(splitChar == '-'){
+        complexImag.beforePoint.push_back(splitChar);
+    }
+    afterP = false;
+    if(ss >> splitChar){
+        complexImag.beforePoint.clear();
+        complexImag.afterPoint.clear();
+        if(splitChar == 'i'){
+            complexImag.beforePoint.push_back('1');
+        }else{
+            while(splitChar != 'i'){
+                if(splitChar == '.'){
+                    afterP = true;
+                    ss >> splitChar;
+                }
+                if(afterP){
+                    complexImag.afterPoint.push_back(splitChar);
+                    ss >> splitChar;
+                }else{
+                    complexImag.beforePoint.push_back(splitChar);
+                    ss >> splitChar;
+                }
+            }
+        }
+    }
+    if(complpexReal.afterPoint.size() == 0){
+        real = complpexReal.beforePoint + ".00";
+    }else{
+        real = complpexReal.beforePoint + "." + complpexReal.afterPoint;
+    }
+    
+    if(complexImag.afterPoint.size() == 0){
+        imag = complexImag.beforePoint + ".00";
+    }else{
+        imag = complexImag.beforePoint + "." + complexImag.afterPoint;
+    }
+    
+    
+}
+
+//overload = operator
+Complex& Complex::operator = (const char *number){
+    string temp(number);
+    stringstream ss;
+    bool afterP = false;
+    char splitChar;
+    ss << temp;
+    ss >> splitChar;
+    complpexReal.beforePoint.clear();
+    complpexReal.afterPoint.clear();
+    //input to decimal class
+    if(splitChar == '-'){
+        complpexReal.beforePoint.push_back(splitChar);
+        ss >> splitChar;
+    }
+    
+    while(splitChar != '+' && splitChar != '-'){
+        if(splitChar == '.'){
+            afterP = true;
+            ss >> splitChar;
+        }
+        if(afterP){
+            complpexReal.afterPoint.push_back(splitChar);
+        }else{
+            complpexReal.beforePoint.push_back(splitChar);
+        }
+        if(!(ss >> splitChar)){
+            break;
+        }
+    }
+    
+    
+    if(splitChar == '-'){
+        complexImag.beforePoint.push_back(splitChar);
+    }
+    afterP = false;
+    if(ss >> splitChar){
+        complexImag.beforePoint.clear();
+        complexImag.afterPoint.clear();
+        if(splitChar == 'i'){
+            complexImag.beforePoint.push_back('1');
+        }else{
+            while(splitChar != 'i'){
+                if(splitChar == '.'){
+                    afterP = true;
+                    ss >> splitChar;
+                }
+                if(afterP){
+                    complexImag.afterPoint.push_back(splitChar);
+                    ss >> splitChar;
+                }else{
+                    complexImag.beforePoint.push_back(splitChar);
+                    ss >> splitChar;
+                }
+            }
+        }
+    }
+    if(complpexReal.afterPoint.size() == 0){
+        real = complpexReal.beforePoint + ".00";
+    }else{
+        real = complpexReal.beforePoint + "." + complpexReal.afterPoint;
+    }
+    
+    if(complexImag.afterPoint.size() == 0){
+        imag = complexImag.beforePoint + ".00";
+    }else{
+        imag = complexImag.beforePoint + "." + complexImag.afterPoint;
+    }
+    
+
+    return *this;
+}
+
+Complex& Complex::operator=(const Complex& rhs)
+{
+    complexImag.beforePoint = rhs.complexImag.beforePoint;
+    complexImag.afterPoint = rhs.complexImag.afterPoint;
+    complpexReal.beforePoint = rhs.complpexReal.beforePoint;
+    complpexReal.afterPoint = rhs.complpexReal.afterPoint;
+    return *this;
+}
+
+Complex& Complex::operator=(const Decimal& rhs)
+{
+    complexImag.beforePoint = "0";
+    complexImag.afterPoint = "0";
+    complpexReal.beforePoint = rhs.beforePoint;
+    complpexReal.afterPoint = rhs.afterPoint;
+    return *this;
+}
+
+Complex& Complex::operator=(const Integer& rhs)
+{
+    complexImag.beforePoint = "0";
+    complexImag.afterPoint = "0";
+    complpexReal.beforePoint = rhs.real;
+    complpexReal.afterPoint = "0";
+    return *this;
+}
 
 Complex operator+(const Complex& lhs, const Complex& rhs) {
     Complex result;
-    result.real = lhs.real + rhs.real;
-    result.imag = lhs.imag + rhs.imag;
+    result = result.complexAdd(lhs, rhs);
     return result;
 }
 
+Complex operator+(const Complex& lhs, const Decimal& rhs) {
+    Complex result,tempComplex;
+    tempComplex = rhs;  // convert Decimal to Complex
+    result = result.complexAdd(lhs, tempComplex);
+    return result;
+}
+
+Complex operator+(const Decimal& lhs, const Complex& rhs) {
+    Complex result,tempComplex;
+    tempComplex = lhs;  // convert Decimal to Complex
+    result = result.complexAdd(tempComplex, rhs);
+    return result;
+}
+
+Complex operator+(const Integer& lhs, const Complex& rhs) {
+    Complex result,tempComplex;
+    tempComplex = lhs;  // convert Integer to Complex
+    result = result.complexAdd(tempComplex, rhs);
+    return result;
+}
+
+Complex operator+(const Complex& lhs, const Integer& rhs) {
+    Complex result,tempComplex;
+    tempComplex = rhs;  // convert Integer to Complex
+    result = result.complexAdd(lhs, tempComplex);
+    return result;
+}
+
+
+
 Complex operator-(const Complex& lhs, const Complex& rhs){
     Complex result;
-    result.real = lhs.real - rhs.real;
-    result.imag = lhs.imag - rhs.imag;
+    result = result.complexMinus(lhs, rhs);
     return result;
 }
 
 Complex operator*(const Complex& lhs, const Complex& rhs){
     Complex result;
-    result.real = (lhs.real * rhs.real) - (lhs.imag * rhs.imag);
-    result.imag =  (lhs.imag * rhs.real) + (lhs.real * rhs.imag);
+    result = result.complexMultiply(lhs, rhs);
     return result;
 }
 
 Complex operator/(const Complex& top, const Complex& bottom){
-    Complex rBottom;
     Complex result;
-    Decimal negative;
-    negative.beforePoint = "-1";
-    rBottom.real = bottom.real;
-    rBottom.imag = bottom.imag * negative;
-    Decimal bottomPlum = (bottom.real * bottom.real) + (bottom.imag * bottom.imag);
-    
-    result.real = (top.real * rBottom.real) - (top.imag * rBottom.imag);
-    result.imag = (top.imag * rBottom.real) + (top.real * rBottom.imag);
-    result.real = result.real / bottomPlum;
-    result.imag = result.imag / bottomPlum;
-    
+    result = result.complexDivide(top, bottom);
     return result;
 }
 
@@ -53,7 +250,7 @@ istream &operator >> (istream& input, Complex& c){
     
     //input to decimal class
     if(splitChar == '-'){
-        c.real.beforePoint.push_back(splitChar);
+        c.complpexReal.beforePoint.push_back(splitChar);
         ss >> splitChar;
     }
     
@@ -63,20 +260,20 @@ istream &operator >> (istream& input, Complex& c){
             ss >> splitChar;
         }
         if(afterP){
-            c.real.afterPoint.push_back(splitChar);
+            c.complpexReal.afterPoint.push_back(splitChar);
             ss >> splitChar;
         }else{
-            c.real.beforePoint.push_back(splitChar);
+            c.complpexReal.beforePoint.push_back(splitChar);
             ss >> splitChar;
         }
     }
     if(splitChar == '-'){
-        c.imag.beforePoint.push_back(splitChar);
+        c.complexImag.beforePoint.push_back(splitChar);
     }
     afterP = false;
     ss >> splitChar;
     if(splitChar == 'i'){
-        c.imag.beforePoint.push_back('1');
+        c.complexImag.beforePoint.push_back('1');
     }else{
         while(splitChar != 'i'){
             if(splitChar == '.'){
@@ -84,10 +281,10 @@ istream &operator >> (istream& input, Complex& c){
                 ss >> splitChar;
             }
             if(afterP){
-                c.imag.afterPoint.push_back(splitChar);
+                c.complexImag.afterPoint.push_back(splitChar);
                 ss >> splitChar;
             }else{
-                c.imag.beforePoint.push_back(splitChar);
+                c.complexImag.beforePoint.push_back(splitChar);
                 ss >> splitChar;
             }
         }
@@ -97,46 +294,46 @@ istream &operator >> (istream& input, Complex& c){
 }
 
 ostream &operator << (ostream& output, const Complex& c){
-    for(int i = 0; i < c.real.beforePoint.size(); i++){
-        output << c.real.beforePoint[i];
+    for(int i = 0; i < c.complpexReal.beforePoint.size(); i++){
+        output << c.complpexReal.beforePoint[i];
     }
     output << ".";
     
-    if(c.real.afterPoint.size() == 0){
+    if(c.complpexReal.afterPoint.size() == 0){
         for(int i = 0; i < 10; i++){
             output << '0';
         }
     }else{
         int j;
-        for(j = 0; j < c.real.afterPoint.size(); j++){
+        for(j = 0; j < c.complpexReal.afterPoint.size(); j++){
             if(j == 10){
                 break;
             }
-            output << c.real.afterPoint[j];
+            output << c.complpexReal.afterPoint[j];
         }
         while(j < 10){
             output << '0';
             j++;
         }
     }
-    if(c.imag.beforePoint[0] != '-'){
+    if(c.complexImag.beforePoint[0] != '-'){
         output << "+";
     }
-    for(int i = 0; i < c.imag.beforePoint.size(); i++){
-        output << c.imag.beforePoint[i];
+    for(int i = 0; i < c.complexImag.beforePoint.size(); i++){
+        output << c.complexImag.beforePoint[i];
     }
     output << ".";
-    if(c.imag.afterPoint.size() == 0){
+    if(c.complexImag.afterPoint.size() == 0){
         for(int i = 0; i < 10; i++){
             output << '0';
         }
     }else{
         int j;
-        for(j = 0; j < c.imag.afterPoint.size(); j++){
+        for(j = 0; j < c.complexImag.afterPoint.size(); j++){
             if(j == 10){
                 break;
             }
-            output << c.imag.afterPoint[j];
+            output << c.complexImag.afterPoint[j];
             
         }
         while(j < 10){
@@ -156,5 +353,43 @@ Complex Complex::Power(Complex base, string times){
         result = result * base;
         loop = AddString(loop, one);
     }
+    return result;
+}
+
+Complex Complex::complexAdd(const Complex& lhs, const Complex& rhs){
+    Complex result;
+    result.complpexReal = lhs.complpexReal + rhs.complpexReal;
+    result.complexImag = lhs.complexImag + rhs.complexImag;
+    return result;
+}
+
+Complex Complex::complexMinus(const Complex& lhs, const Complex& rhs){
+    Complex result;
+    result.complpexReal = lhs.complpexReal - rhs.complpexReal;
+    result.complexImag = lhs.complexImag - rhs.complexImag;
+    return result;
+}
+
+Complex Complex::complexMultiply(const Complex& lhs, const Complex& rhs){
+    Complex result;
+    result.complpexReal = (lhs.complpexReal * rhs.complpexReal) - (lhs.complexImag * rhs.complexImag);
+    result.complexImag =  (lhs.complexImag * rhs.complpexReal) + (lhs.complpexReal * rhs.complexImag);
+    return result;
+}
+
+Complex Complex::complexDivide(const Complex& top, const Complex& bottom){
+    Complex rBottom;
+    Complex result;
+    Decimal negative;
+    negative.beforePoint = "-1";
+    rBottom.complpexReal = bottom.complpexReal;
+    rBottom.complexImag = bottom.complexImag * negative;
+    Decimal bottomPlum = (bottom.complpexReal * bottom.complpexReal) + (bottom.complexImag * bottom.complexImag);
+    
+    result.complpexReal = (top.complpexReal * rBottom.complpexReal) - (top.complexImag * rBottom.complexImag);
+    result.complexImag = (top.complexImag * rBottom.complpexReal) + (top.complpexReal * rBottom.complexImag);
+    result.complpexReal = result.complpexReal / bottomPlum;
+    result.complexImag = result.complexImag / bottomPlum;
+    
     return result;
 }

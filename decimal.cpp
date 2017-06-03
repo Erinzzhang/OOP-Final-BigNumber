@@ -8,6 +8,146 @@ using namespace std;
 Decimal::Decimal(){
     beforePoint = "";
     afterPoint = "";
+    real = beforePoint + "." + afterPoint;
+}
+
+//decimal constructor function
+Decimal::Decimal(const char *number){
+    string temp(number);
+    char splitChar;
+    stringstream ss;
+    ss << temp;
+    ss >> splitChar;
+    //input to decimal class
+    while(splitChar != '.'){
+        beforePoint.push_back(splitChar);
+        if(!(ss >> splitChar)){
+            afterPoint.push_back('0');
+            break;
+        }
+    }
+    while(ss >> splitChar){
+        afterPoint.push_back(splitChar);
+    }
+    real = beforePoint + "." + afterPoint;
+}
+
+
+//overload = operator
+Decimal& Decimal::operator = (const char *number){
+    string temp(number);
+    char splitChar;
+    stringstream ss;
+    ss << temp;
+    ss >> splitChar;
+    //input to decimal class
+    while(splitChar != '.'){
+        beforePoint.push_back(splitChar);
+        if(!(ss >> splitChar)){
+            afterPoint.push_back('0');
+            break;
+        }
+    }
+    while(ss >> splitChar){
+        afterPoint.push_back(splitChar);
+    }
+    real = beforePoint + "." + afterPoint;
+    return *this;
+}
+Decimal& Decimal::operator=(const Decimal& rhs)
+{
+    beforePoint = rhs.beforePoint;
+    afterPoint = rhs.afterPoint;
+    // return the existing object so we can chain this operator
+    real = beforePoint + "." + afterPoint;
+    return *this;
+}
+
+Decimal& Decimal::operator=(const Integer& rhs)
+{
+    beforePoint = rhs.real;
+    afterPoint = "0";
+    // return the existing object so we can chain this operator
+    real = beforePoint + "." + afterPoint;
+    return *this;
+}
+
+
+//overload + operator
+Decimal operator+(const Decimal& d1, const Decimal& d2) {
+    Decimal result;
+    result = result.decimalAdd(d1, d2);
+    return result;
+}
+
+Decimal operator+(const Decimal& lhs, const Integer& rhs) {
+    Decimal result,tempDecimal;
+    tempDecimal = rhs;  // convert Integer to Complex
+    result = result.decimalAdd(lhs, tempDecimal);
+    return result;
+}
+
+Decimal operator+(const Integer& lhs, const Decimal& rhs) {
+    Decimal result,tempDecimal;
+    tempDecimal = lhs;  // convert Integer to Complex
+    result = result.decimalAdd(tempDecimal, rhs);
+    return result;
+}
+
+//overload - operator
+Decimal operator-(const Decimal& d1, const Decimal& d2) {
+    Decimal result;
+    result = result.decimalMinus(d1, d2);
+    return result;
+}
+
+//overload * operator
+Decimal operator*(const Decimal& d1, const Decimal& d2) {
+    Decimal result;
+    result = result.decimalMultiply(d1, d2);
+    return result;
+}
+
+//overload / operator
+Decimal operator/(const Decimal& d1, const Decimal& d2) {
+    Decimal result;
+    result = result.decimalDivide(d1, d2);
+    return result;
+}
+
+//overload >> operator
+istream &operator >> (istream& input, Decimal& d) {
+    string s;
+    stringstream ss;
+    char splitChar;
+    input >> s;
+    ss << s;
+    ss >> splitChar;
+    //input to decimal class
+    while(splitChar != '.'){
+        d.beforePoint.push_back(splitChar);
+        ss >> splitChar;
+    }
+    while(ss >> splitChar){
+        d.afterPoint.push_back(splitChar);
+    }
+
+    return input;
+}
+
+//overload << operator
+ostream &operator << (ostream& output, const Decimal& d) {
+    //print numbers before point
+    for(int i = 0; i < d.beforePoint.size(); i++) {
+        output << d.beforePoint[i];
+    }
+	output << ".";
+    //print numbers after point
+    for(int i = 0; i < d.afterPoint.size(); i++) {
+        output << d.afterPoint[i];
+    }
+    
+	return output;
 }
 
 //preoperation for decimal calculation
@@ -45,15 +185,16 @@ Decimal Decimal::preoperation(Decimal& lhs, Decimal& rhs) {
     
     res.beforePoint = l;
     res.afterPoint = r;
-    
+    real = beforePoint + "." + afterPoint;
     return res;
 }
 
-//overload + operator
-Decimal operator+(const Decimal& d1, const Decimal& d2) {
+//decimalAdd for decimal calculation
+Decimal Decimal::decimalAdd(const Decimal& d1, const Decimal& d2){
     Decimal lhs = d1, rhs = d2, result, temp;
     bool negative = false;
     string SResult;
+    
     
     //process '-'
     if(lhs.beforePoint[0] == '-' && rhs.beforePoint[0] == '-'){   // -(a+b)
@@ -97,11 +238,14 @@ Decimal operator+(const Decimal& d1, const Decimal& d2) {
     if(negative){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
-
+    
+    
+    result.real = result.beforePoint + "." + result.afterPoint;
     return result;
 }
 
-Decimal operator-(const Decimal& d1, const Decimal& d2) {
+//decimalMinus for decimal calculation
+Decimal Decimal::decimalMinus(const Decimal& d1, const Decimal& d2){
     Decimal lhs = d1, rhs = d2, result, temp;
     string SResult;
     bool negative = false;
@@ -144,16 +288,20 @@ Decimal operator-(const Decimal& d1, const Decimal& d2) {
         result.beforePoint.pop_back();
     }
     reverse(result.beforePoint.begin(), result.beforePoint.end());
-
+    
     if(negative){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
     
+    
+    result.real = result.beforePoint + "." + result.afterPoint;
     return result;
+
+    
 }
 
-
-Decimal operator*(const Decimal& d1, const Decimal& d2) {
+//decimalMultiply for decimal calculation
+Decimal Decimal::decimalMultiply(const Decimal& d1, const Decimal& d2){
     Decimal lhs = d1, rhs = d2, result, temp;
     bool negative = false;
     
@@ -214,11 +362,13 @@ Decimal operator*(const Decimal& d1, const Decimal& d2) {
         result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
     
+    
+    result.real = result.beforePoint + "." + result.afterPoint;
     return result;
 }
 
-
-Decimal operator/(const Decimal& d1, const Decimal& d2) {
+//decimalDivide for decimal calculation
+Decimal Decimal::decimalDivide(const Decimal& d1, const Decimal& d2){
     Decimal lhs = d1, rhs = d2, result, temp;
     bool negative = false;
     
@@ -234,9 +384,9 @@ Decimal operator/(const Decimal& d1, const Decimal& d2) {
     }
     
     temp = result.preoperation(lhs, rhs);
-
+    
     string SResult = temp.divide(temp.beforePoint, temp.afterPoint);
-
+    
     bool beforeDot = true;
     for(int i = 0; i < SResult.size(); i++){
         if(SResult[i] == '.'){
@@ -262,124 +412,27 @@ Decimal operator/(const Decimal& d1, const Decimal& d2) {
         result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
     
+    
+    result.real = result.beforePoint + "." + result.afterPoint;
+    return result;
+
+}
+
+//Power for decimal calculation
+Decimal Decimal::Power(Decimal base, string times){
+    Decimal result = base;
+    string one = "1", loop = "1";
+    cout << "loop = " << loop << endl;
+    while(compare(loop, times) != 1){
+        result = result * base;
+        loop = AddString(loop, one);
+        cout << "loop = " << loop << endl;
+        
+    }
     return result;
 }
 
-istream &operator >> (istream& input, Decimal& d) {
-    string s;
-    stringstream ss;
-    char splitChar;
-    input >> s;
-    ss << s;
-    ss >> splitChar;
-    //input to decimal class
-    while(splitChar != '.'){
-        d.beforePoint.push_back(splitChar);
-        ss >> splitChar;
-    }
-    while(ss >> splitChar){
-        d.afterPoint.push_back(splitChar);
-    }
-
-    return input;
-}
-
-ostream &operator << (ostream& output, const Decimal& d) {
-    //print numbers before point
-    for(int i = 0; i < d.beforePoint.size(); i++) {
-        output << d.beforePoint[i];
-    }
-	output << ".";
-    //print numbers after point
-    for(int i = 0; i < d.afterPoint.size(); i++) {
-        output << d.afterPoint[i];
-    }
-    
-	return output;
-}
-
-//string Decimal::divide(string a, string b) {
-//    Decimal result, x1, up, down, xn;
-//    bool negative = false;
-//
-//    if(a[0] == '-' && b[0] == '-'){
-//        a.erase(a.begin());
-//        b.erase(b.begin());
-//    }else if(a[0] == '-' && b[0] != '-'){
-//        a.erase(a.begin());
-//        negative = true;
-//    }else if(a[0] != '-' && b[0] == '-'){
-//        b.erase(b.begin());
-//        negative = true;
-//    }
-//
-//    string one = "1", temp = b, ten = "10";
-//    up.beforePoint = a;
-//    down.beforePoint = b;
-//    cout << temp << endl;
-//    temp = result.KaratsubaMultiply(one, temp);
-//    cout << temp << endl;
-//    x1.beforePoint.push_back('0');
-//    for(int i = 0; i < temp.length() - 1; i++) {
-//        one.push_back('0');
-//        if(i > 0) x1.afterPoint.push_back('0');
-//        //if((b.size()-1) == 0) x1.afterPoint.push_back('0');
-//    }
-//    
-//    cout << one << endl;
-//    
-//    for(int j = 0; j < b.size(); j++){
-//        for(int i = 1; i < 10; i++) {
-//            string num;
-//            num.push_back((char)(i + 48));
-//            string cmpMulti = result.KaratsubaMultiply(num, temp);
-//            string oneTemp = result.MinusString(one, cmpMulti);
-//            if(result.compare(oneTemp, temp) == 0){
-//                string multiplyTen;
-//                multiplyTen.push_back((char)(10 + 48));
-//                if(oneTemp[0] == '-'){
-//                    i--;
-//                    x1.afterPoint.push_back((char)(i + 48));
-//                    one = result.KaratsubaMultiply(one, multiplyTen);
-//                }else{
-//                    x1.afterPoint.push_back((char)(i + 48));
-//                    one = result.KaratsubaMultiply(oneTemp, multiplyTen);
-//                }
-//                break;
-//            }
-//        }
-//    }
-//    
-//    cout << one << endl;
-//    
-//    for(int i = 0; i < a.size() + 1; i++){
-//        Decimal sTwo;
-//        sTwo.beforePoint.push_back('2');
-//        
-//        //xn = (sTwo - (x1 * down)) * x1;
-//        xn = x1 * down;
-//        cout << x1 << "," << down << endl;
-//        cout << xn << endl;
-//        xn = sTwo - xn;
-//        cout << xn << endl;
-//        xn = xn * x1;
-//        cout << xn << endl;
-//        x1 = xn;
-//    }
-//    result = up * xn;
-//    if(result.beforePoint.size() == 0){
-//        result.beforePoint.push_back('0');
-//    }
-//    
-//    if(negative){
-//        result.beforePoint.insert(result.beforePoint.begin(), '-');
-//    }
-//    
-//    string outString = result.beforePoint + "." + result.afterPoint;
-//    
-//    return outString;
-//}
-
+//divide calculation for decimalDivide function
 string Decimal::divide(string a, string b) {
     Decimal result, x1;
     bool negative = false;
@@ -450,15 +503,85 @@ string Decimal::divide(string a, string b) {
     return outString;
 }
 
-Decimal Decimal::Power(Decimal base, string times){
-    Decimal result = base;
-    string one = "1", loop = "1";
-    cout << "loop = " << loop << endl;
-    while(compare(loop, times) != 1){
-        result = result * base;
-        loop = AddString(loop, one);
-        cout << "loop = " << loop << endl;
-        
-    }
-    return result;
-}
+
+//string Decimal::divide(string a, string b) {
+//    Decimal result, x1, up, down, xn;
+//    bool negative = false;
+//
+//    if(a[0] == '-' && b[0] == '-'){
+//        a.erase(a.begin());
+//        b.erase(b.begin());
+//    }else if(a[0] == '-' && b[0] != '-'){
+//        a.erase(a.begin());
+//        negative = true;
+//    }else if(a[0] != '-' && b[0] == '-'){
+//        b.erase(b.begin());
+//        negative = true;
+//    }
+//
+//    string one = "1", temp = b, ten = "10";
+//    up.beforePoint = a;
+//    down.beforePoint = b;
+//    cout << temp << endl;
+//    temp = result.KaratsubaMultiply(one, temp);
+//    cout << temp << endl;
+//    x1.beforePoint.push_back('0');
+//    for(int i = 0; i < temp.length() - 1; i++) {
+//        one.push_back('0');
+//        if(i > 0) x1.afterPoint.push_back('0');
+//        //if((b.size()-1) == 0) x1.afterPoint.push_back('0');
+//    }
+//
+//    cout << one << endl;
+//
+//    for(int j = 0; j < b.size(); j++){
+//        for(int i = 1; i < 10; i++) {
+//            string num;
+//            num.push_back((char)(i + 48));
+//            string cmpMulti = result.KaratsubaMultiply(num, temp);
+//            string oneTemp = result.MinusString(one, cmpMulti);
+//            if(result.compare(oneTemp, temp) == 0){
+//                string multiplyTen;
+//                multiplyTen.push_back((char)(10 + 48));
+//                if(oneTemp[0] == '-'){
+//                    i--;
+//                    x1.afterPoint.push_back((char)(i + 48));
+//                    one = result.KaratsubaMultiply(one, multiplyTen);
+//                }else{
+//                    x1.afterPoint.push_back((char)(i + 48));
+//                    one = result.KaratsubaMultiply(oneTemp, multiplyTen);
+//                }
+//                break;
+//            }
+//        }
+//    }
+//
+//    cout << one << endl;
+//
+//    for(int i = 0; i < a.size() + 1; i++){
+//        Decimal sTwo;
+//        sTwo.beforePoint.push_back('2');
+//
+//        //xn = (sTwo - (x1 * down)) * x1;
+//        xn = x1 * down;
+//        cout << x1 << "," << down << endl;
+//        cout << xn << endl;
+//        xn = sTwo - xn;
+//        cout << xn << endl;
+//        xn = xn * x1;
+//        cout << xn << endl;
+//        x1 = xn;
+//    }
+//    result = up * xn;
+//    if(result.beforePoint.size() == 0){
+//        result.beforePoint.push_back('0');
+//    }
+//
+//    if(negative){
+//        result.beforePoint.insert(result.beforePoint.begin(), '-');
+//    }
+//
+//    string outString = result.beforePoint + "." + result.afterPoint;
+//
+//    return outString;
+//}
