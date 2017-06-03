@@ -11,7 +11,6 @@
 
 using namespace std;
 
-
 int main(){
     
     
@@ -30,6 +29,15 @@ int main(){
     
     // 任意數的加減乘除及括弧運算。
     cout << (i + d - c)*c/(c-i)<< endl;
+    cout << endl;
+    
+    Integer B;
+    Integer A = 100 + B.Power(4, "2");  // Bug: not B.Power(5,"2") need: Power(5,2)
+                                        // Bug: not B.Power(5,"0.5") not work
+    cout << "A = " << A << endl;
+    A = 20;
+    A = A + A;
+    cout << "A = " << A << endl;
     cout << endl;
     
     // Integer、Decimal、Complex 重載operator <<, >>, +, -, *, /分別為輸出、輸入及四則運算功能,並且可以互相運算

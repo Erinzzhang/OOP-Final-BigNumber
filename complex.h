@@ -65,7 +65,6 @@ public:
     Complex complexMultiply(const Complex&, const Complex&);
     Complex complexDivide(const Complex&, const Complex&);
     
-    
     Decimal complexImag;
     Decimal complpexReal;
 };

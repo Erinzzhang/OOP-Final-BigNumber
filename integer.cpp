@@ -22,6 +22,21 @@ Integer::Integer(const char *number){
     real = number;
 }
 
+Integer::Integer(const int number){
+    string tempStr = to_string(number);
+    real = tempStr;
+}
+
+//overload = operator
+Integer& Integer::operator=(const int& rhs)
+{
+    string tempStr = to_string(rhs);
+    // do the copy
+    real = tempStr;
+    // return the existing object so we can chain this operator
+    return *this;
+}
+
 // A simplistic implementation of operator= (see better implementation below)
 Integer& Integer::operator=(const Integer& rhs)
 {
@@ -64,6 +79,17 @@ Integer operator/(const Integer& lhs, const Integer& rhs) {
     
     return result;
 }
+
+Integer Integer::Power(Integer base, string times){
+    Integer result = base;
+    string one = "1", loop = "1";
+    while(compare(loop, times) != 1){
+        result = result * base;
+        loop = AddString(loop, one);
+    }
+    return result;
+}
+
 
 //overload << operator
 std::ostream &operator<<(std::ostream &os, Integer const &IntegerNum) {

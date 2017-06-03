@@ -475,6 +475,7 @@ Decimal Decimal::Power(Decimal base, string times){
     return result;
 }
 
+
 //divide calculation for decimalDivide function
 string Decimal::divide(string a, string b) {
     Decimal result, x1;

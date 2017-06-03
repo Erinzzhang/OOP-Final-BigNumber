@@ -75,15 +75,6 @@ vector<string> inputFormula::toMinFormula(vector<string>tempVector){
         minFormula.push_back(calFormula[i]);
     }
     
-    /*
-    //print minFormula
-    cout <<"min: ";
-    for (int i = 0 ; i < minFormula.size(); i++){
-        cout <<  minFormula[i] << " ";
-    }
-    cout << endl;
-    */
-    
     //calculate the ans of minFormula
     minFormulaAns = tempAns(minFormula);
     return minFormula;
@@ -193,14 +184,6 @@ void inputFormula::toAns(){
 }
 
 void inputFormula::printFormula(){
-    
-    /*
-    // number for check
-    for (int i = 0 ;i < formulaStr.size(); i++){
-        cout << i << "\t";
-    }
-    cout << endl;
-     */
     
     //print formula
     for (int i = 0; i < formulaStr.size(); i++){
