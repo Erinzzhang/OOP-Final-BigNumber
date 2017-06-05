@@ -7,8 +7,8 @@
 using namespace std;
 
 vector<int> NumberObject::add(vector<int> num1, vector<int> num2, bool isDecimalAfterPoint) {
-	vector<int> result;		//a vector to sort results
-	int ten = 0;
+    vector<int> result;		//a vector to sort results
+    int ten = 0;
     
     //set both vector to the same length
     double gapSize = num1.size() - num2.size();
@@ -30,29 +30,29 @@ vector<int> NumberObject::add(vector<int> num1, vector<int> num2, bool isDecimal
             num1.insert(num1.begin(), (int)abs(gapSize), 0);
         }
     }
-	
+    
     //reverse the vector to calculate from the ones
-	reverse(num1.begin(), num1.end());
-	reverse(num2.begin(), num2.end());
+    reverse(num1.begin(), num1.end());
+    reverse(num2.begin(), num2.end());
     
     //start addition
-	for (int i = 0; i < num1.size(); i++) {		//calculate one number at a time
-		int sum = num1[i] + num2[i] + ten;		//add the ten that was left from last times calculation
-		ten = sum / 10;		//save ten for later 
-		result.push_back(sum % 10);		//add the result into the vector
-	}
-	if (ten != 0) {		//if ten isn't zero add it to the result vector
-		result.push_back(ten);
-	}
+    for (int i = 0; i < num1.size(); i++) {		//calculate one number at a time
+        int sum = num1[i] + num2[i] + ten;		//add the ten that was left from last times calculation
+        ten = sum / 10;		//save ten for later
+        result.push_back(sum % 10);		//add the result into the vector
+    }
+    if (ten != 0) {		//if ten isn't zero add it to the result vector
+        result.push_back(ten);
+    }
     reverse(result.begin(), result.end());
     
-	return result;
+    return result;
 }
 
 vector<int> NumberObject::sub(vector<int> num1, vector<int> num2) {
-	vector<int> result;
-	int ten = 0;	//ten is whether the previous calculation had minus off one from the next tens
-
+    vector<int> result;
+    int ten = 0;	//ten is whether the previous calculation had minus off one from the next tens
+    
     //set both vector to the same length
     double gapSize = num1.size() - num2.size();
     if(gapSize > 0.0){
@@ -61,33 +61,33 @@ vector<int> NumberObject::sub(vector<int> num1, vector<int> num2) {
     if (gapSize < 0.0){
         num1.insert(num1.begin(), (int)abs(gapSize), 0);
     }
-
-	//reverse the vector to calculate from the ones
-	reverse(num1.begin(), num1.end());
-	reverse(num2.begin(), num2.end());
-
-	if (num1.back() < num2.back()) {	//let the larger number minus the smaller one
-		vector <int> temp;
-		temp = num1;
-		num1 = num2;
-		num2 = temp;
-		cout << "-";		//if swap, remember to add "-" into the output
-	}
-
-	for (int i = 0; i < num1.size(); i++) {
-		int sum = num1[i] - num2[i] - ten;
-		if (sum < 0) {
-			ten = 1;	//set the ten for later minus
-			sum = 10 + sum;
-		}
-		else {
-			ten = 0;
-		}
-		result.push_back(sum);	//push back the result
-	}
+    
+    //reverse the vector to calculate from the ones
+    reverse(num1.begin(), num1.end());
+    reverse(num2.begin(), num2.end());
+    
+    if (num1.back() < num2.back()) {	//let the larger number minus the smaller one
+        vector <int> temp;
+        temp = num1;
+        num1 = num2;
+        num2 = temp;
+        cout << "-";		//if swap, remember to add "-" into the output
+    }
+    
+    for (int i = 0; i < num1.size(); i++) {
+        int sum = num1[i] - num2[i] - ten;
+        if (sum < 0) {
+            ten = 1;	//set the ten for later minus
+            sum = 10 + sum;
+        }
+        else {
+            ten = 0;
+        }
+        result.push_back(sum);	//push back the result
+    }
     reverse(result.begin(), result.end());
     
-	return result;
+    return result;
 }
 
 // given two unequal sized bit strings, converts them to
@@ -310,16 +310,19 @@ std::ostream &operator<<(std::ostream &os, NumberObject const &NumberObject) {
     }else{
         printStr = NumberObject.real + "+" + NumberObject.imag + "i";
     }
-
+    
     return os << printStr;
 }
 
-string NumberObject::Power(string base, string times){
+
+NumberObject Power(string base, string times){
+    NumberObject num;
     string result = base, one = "1", loop = "1";
-    while(compare(loop, times) != 1){
-        result = KaratsubaMultiply(result, base);
-        loop = AddString(loop, one);
+    while(num.compare(loop, times) != 1){
+        result = num.KaratsubaMultiply(result, base);
+        loop = num.AddString(loop, one);
     }
-    return result;
+    num.real = result;
+    return num;
 }
 
