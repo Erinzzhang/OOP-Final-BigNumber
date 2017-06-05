@@ -66,45 +66,45 @@ int main(){
     cout << endl;
 
     
-//    cout << "Complex" << endl;
-//    Complex c1 = "1.2+i";
-//    Complex c2,c3=c1,c4=c3;
-//    c2 = "2.2+2i";
-//    c3 = c2;
-//    cout << c1 << endl << c2 << endl;
-//    cout << c3 << endl << c4 << endl;
-//    cout << endl;
-//    cout << c1 + c2 << endl;
-//    cout << c1 - c2  << endl;
-//    cout << c1 * c2  << endl;
-//    cout << c1 / c2  << endl;
-//    cout << endl;
-//
-//    cout << "Decimal" << endl;
-//    Decimal d1 = "100.0";
-//    Decimal d2,d3;
-//    d2 = "100.1";
-//    d3 = d2;
-//    cout << d1 << endl << d2 << endl << d3 << endl;
-//    cout << d1 + d2 << endl;
-//    cout << d1 - d2 << endl;
-//    cout << d1 * d2 << endl;
-//    cout << d1/d2 << endl;
-//    cout << endl;
-//
-//    cout << "Integer" << endl;
-//    Integer I1, I2,I4;
-//    I1 = "10";
-//    I2 = "20";
-//    I4 = I2;
-//    Integer I3("30");
-//    Integer I5 = "50";
-//    
-//    cout << I1 << " " << I2 << " " << I3 << " " << I4 << " " << I5 << endl;
-//    cout << I1 + I2 << endl;
-//    cout << I1 - I2 << endl;
-//    cout << I1 * I2 << endl;
-//    cout << I1 / I2 << endl;
+    cout << "Complex" << endl;
+    Complex c1 = "1.2+i";
+    Complex c2,c3=c1,c4=c3;
+    c2 = "2.2+2i";
+    c3 = c2;
+    cout << c1 << endl << c2 << endl;
+    cout << c3 << endl << c4 << endl;
+    cout << endl;
+    cout << c1 + c2 << endl;
+    cout << c1 - c2  << endl;
+    cout << c1 * c2  << endl;
+    cout << c1 / c2  << endl;
+    cout << endl;
+
+    cout << "Decimal" << endl;
+    Decimal d1 = "100.0";
+    Decimal d2,d3;
+    d2 = "100.1";
+    d3 = d2;
+    cout << d1 << endl << d2 << endl << d3 << endl;
+    cout << d1 + d2 << endl;
+    cout << d1 - d2 << endl;
+    cout << d1 * d2 << endl;
+    cout << d1/d2 << endl;
+    cout << endl;
+
+    cout << "Integer" << endl;
+    Integer I1, I2,I4;
+    I1 = "10";
+    I2 = "20";
+    I4 = I2;
+    Integer I3("30");
+    Integer I5 = "50";
+    
+    cout << I1 << " " << I2 << " " << I3 << " " << I4 << " " << I5 << endl;
+    cout << I1 + I2 << endl;
+    cout << I1 - I2 << endl;
+    cout << I1 * I2 << endl;
+    cout << I1 / I2 << endl;
 
 
     

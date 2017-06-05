@@ -278,6 +278,13 @@ Decimal Decimal::decimalAdd(const Decimal& d1, const Decimal& d2){
     }
     reverse(result.beforePoint.begin(), result.beforePoint.end());
     
+    if(result.beforePoint.size() == 0 || (result.beforePoint.size() == 1 && result.beforePoint.back() == '-')){
+        result.beforePoint.push_back('0');
+    }
+    if(result.afterPoint.size() == 0){
+        result.afterPoint.push_back('0');
+    }
+    
     if(negative){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
@@ -331,6 +338,13 @@ Decimal Decimal::decimalMinus(const Decimal& d1, const Decimal& d2){
         result.beforePoint.pop_back();
     }
     reverse(result.beforePoint.begin(), result.beforePoint.end());
+    
+    if(result.beforePoint.size() == 0 || (result.beforePoint.size() == 1 && result.beforePoint.back() == '-')){
+        result.beforePoint.push_back('0');
+    }
+    if(result.afterPoint.size() == 0){
+        result.afterPoint.push_back('0');
+    }
     
     if(negative){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
@@ -401,6 +415,13 @@ Decimal Decimal::decimalMultiply(const Decimal& d1, const Decimal& d2){
     }
     reverse(result.beforePoint.begin(), result.beforePoint.end());
     
+    if(result.beforePoint.size() == 0){
+        result.beforePoint.push_back('0');
+    }
+    if(result.afterPoint.size() == 0){
+        result.afterPoint.push_back('0');
+    }
+    
     if(negative){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
@@ -450,6 +471,13 @@ Decimal Decimal::decimalDivide(const Decimal& d1, const Decimal& d2){
         result.beforePoint.pop_back();
     }
     reverse(result.beforePoint.begin(), result.beforePoint.end());
+    
+    if(result.beforePoint.size() == 0 || (result.beforePoint.size() == 1 && result.beforePoint.back() == '-')){
+        result.beforePoint.push_back('0');
+    }
+    if(result.afterPoint.size() == 0){
+        result.afterPoint.push_back('0');
+    }
     
     if(negative){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
@@ -537,6 +565,13 @@ string Decimal::divide(string a, string b) {
                 break;
             }
         }
+    }
+    
+    if(result.beforePoint.size() == 0 || (result.beforePoint.size() == 1 && result.beforePoint.back() == '-')){
+        result.beforePoint.push_back('0');
+    }
+    if(result.afterPoint.size() == 0){
+        result.afterPoint.push_back('0');
     }
     
     if(negative){
