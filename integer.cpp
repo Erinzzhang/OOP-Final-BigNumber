@@ -126,15 +126,23 @@ string Integer::integerDivide(string a, string b) {
 
 Integer Power(int base, string times){
     Integer num;
-    stringstream ss;
-    ss << base;
-    string result = ss.str(), one = "1", loop = "1";
-    while(num.compare(loop, times) != 1){
-        result = num.KaratsubaMultiply(result, ss.str());
-        loop = num.AddString(loop, one);
+    if(times == "0"){
+        num.real = "1";
+        return num;
+    }else if(times == "0.5"){
+        num.real = "1";
+        return num;
+    }else{
+        stringstream ss;
+        ss << base;
+        string result = ss.str(), one = "1", loop = "1";
+        while(num.compare(loop, times) != 1){
+            result = num.KaratsubaMultiply(result, ss.str());
+            loop = num.AddString(loop, one);
+        }
+        num.real = result;
+        return num;
     }
-    num.real = result;
-    return num;
 }
 
 Integer Power(Integer base, string times){
