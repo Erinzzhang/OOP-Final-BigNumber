@@ -31,10 +31,10 @@ int main(){
     cout << (i + d - c)*c/(c-i)<< endl;
     cout << endl;
     Integer B;
-    Integer A = 100 + Power(4, "2");  // Bug: not B.Power(5,"2") need: Power(5,2)
+    Decimal A = 100.0 + Power(2, "0");  // Bug: not B.Power(5,"2") need: Power(5,2)
                                         // Bug: not B.Power(5,"0.5") not work
     cout << "A = " << A << endl;
-    A = 20;
+    // = 20;
     A = A + A;
     cout << "A = " << A << endl;
     cout << endl;

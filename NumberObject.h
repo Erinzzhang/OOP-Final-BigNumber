@@ -21,3 +21,4 @@ public:
 };
 
 NumberObject Power(string, string);
+NumberObject Power(float, float);

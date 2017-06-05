@@ -53,7 +53,7 @@ public:
     string integerDivide(string, string);
 };
 
-Integer Power(int, string);
+//Integer Power(int, string);
 Integer Power(Integer, string);
 
 #endif /* integer_h */

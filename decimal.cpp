@@ -672,6 +672,30 @@ string Decimal::divide(string a, string b) {
 //    return outString;
 //}
 
+Decimal Power(float base, string times){
+    Decimal num;
+    if(times == "0"){
+        num = "1.0";
+        return num;
+    }else if(times == "0.5"){
+        num = "1.0";
+        return num;
+    }else{
+        stringstream ss;
+        ss << base;
+        string one = "1", loop = "1";
+        Decimal temp = ss.str().c_str();
+        Decimal result = ss.str().c_str();
+        while(num.compare(loop, times) != 1){
+            result = result * temp;
+            loop = num.AddString(loop, one);
+        }
+        num = result;
+        return num;
+    }
+}
+
+
 Decimal Power(Decimal base, string times){
     Decimal result = base;
     if(times == "0"){
