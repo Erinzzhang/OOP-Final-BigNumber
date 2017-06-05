@@ -278,6 +278,13 @@ Decimal Decimal::decimalAdd(const Decimal& d1, const Decimal& d2){
     }
     reverse(result.beforePoint.begin(), result.beforePoint.end());
     
+    if(result.beforePoint.size() == 0 || (result.beforePoint.size() == 1 && result.beforePoint.back() == '-')){
+        result.beforePoint.push_back('0');
+    }
+    if(result.afterPoint.size() == 0){
+        result.afterPoint.push_back('0');
+    }
+    
     if(negative){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
@@ -331,6 +338,13 @@ Decimal Decimal::decimalMinus(const Decimal& d1, const Decimal& d2){
         result.beforePoint.pop_back();
     }
     reverse(result.beforePoint.begin(), result.beforePoint.end());
+    
+    if(result.beforePoint.size() == 0 || (result.beforePoint.size() == 1 && result.beforePoint.back() == '-')){
+        result.beforePoint.push_back('0');
+    }
+    if(result.afterPoint.size() == 0){
+        result.afterPoint.push_back('0');
+    }
     
     if(negative){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
@@ -401,6 +415,13 @@ Decimal Decimal::decimalMultiply(const Decimal& d1, const Decimal& d2){
     }
     reverse(result.beforePoint.begin(), result.beforePoint.end());
     
+    if(result.beforePoint.size() == 0){
+        result.beforePoint.push_back('0');
+    }
+    if(result.afterPoint.size() == 0){
+        result.afterPoint.push_back('0');
+    }
+    
     if(negative){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
@@ -424,6 +445,13 @@ Decimal Decimal::decimalDivide(const Decimal& d1, const Decimal& d2){
     }else if(lhs.beforePoint[0] != '-' && rhs.beforePoint[0] == '-'){
         rhs.beforePoint.erase(rhs.beforePoint.begin());
         negative = true;
+    }
+    
+    if(decimalCheckZero(rhs)){
+        cout << "can't be divided by zero" << endl;
+        result.beforePoint.push_back('0');
+        result.afterPoint.push_back('0');
+        return result;
     }
     
     temp = result.preoperation(lhs, rhs);
@@ -451,6 +479,13 @@ Decimal Decimal::decimalDivide(const Decimal& d1, const Decimal& d2){
     }
     reverse(result.beforePoint.begin(), result.beforePoint.end());
     
+    if(result.beforePoint.size() == 0 || (result.beforePoint.size() == 1 && result.beforePoint.back() == '-')){
+        result.beforePoint.push_back('0');
+    }
+    if(result.afterPoint.size() == 0){
+        result.afterPoint.push_back('0');
+    }
+    
     if(negative){
         result.beforePoint.insert(result.beforePoint.begin(), '-');
     }
@@ -462,18 +497,18 @@ Decimal Decimal::decimalDivide(const Decimal& d1, const Decimal& d2){
 }
 
 //Power for decimal calculation
-Decimal Decimal::Power(Decimal base, string times){
-    Decimal result = base;
-    string one = "1", loop = "1";
-    cout << "loop = " << loop << endl;
-    while(compare(loop, times) != 1){
-        result = result * base;
-        loop = AddString(loop, one);
-        cout << "loop = " << loop << endl;
-        
-    }
-    return result;
-}
+//Decimal Decimal::Power(Decimal base, string times){
+//    Decimal result = base;
+//    string one = "1", loop = "1";
+//    cout << "loop = " << loop << endl;
+//    while(compare(loop, times) != 1){
+//        result = result * base;
+//        loop = AddString(loop, one);
+//        cout << "loop = " << loop << endl;
+//        
+//    }
+//    return result;
+//}
 
 
 //divide calculation for decimalDivide function
@@ -537,6 +572,13 @@ string Decimal::divide(string a, string b) {
                 break;
             }
         }
+    }
+    
+    if(result.beforePoint.size() == 0 || (result.beforePoint.size() == 1 && result.beforePoint.back() == '-')){
+        result.beforePoint.push_back('0');
+    }
+    if(result.afterPoint.size() == 0){
+        result.afterPoint.push_back('0');
     }
     
     if(negative){
@@ -629,3 +671,31 @@ string Decimal::divide(string a, string b) {
 //
 //    return outString;
 //}
+
+Decimal Power(Decimal base, string times){
+    Decimal result = base;
+    string one = "1", loop = "1";
+    cout << "loop = " << loop << endl;
+    while(result.compare(loop, times) != 1){
+        result = result * base;
+        loop = result.AddString(loop, one);
+        cout << "loop = " << loop << endl;
+        
+    }
+    return result;
+}
+
+bool Decimal::decimalCheckZero(Decimal d){
+    bool zero = true;
+    for(int i = 0; i < d.beforePoint.size(); i++){
+        if(d.beforePoint[i] != '0'){
+            zero = false;
+        }
+    }
+    for(int i = 0; i < d.afterPoint.size(); i++){
+        if(d.afterPoint[i] != '0'){
+            zero = false;
+        }
+    }
+    return zero;
+}

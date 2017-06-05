@@ -325,4 +325,3 @@ NumberObject Power(string base, string times){
     num.real = result;
     return num;
 }
-

@@ -11,7 +11,6 @@ public:
     string AddString(string,string);
     string ShiftString(string,int);
     string KaratsubaMultiply(string, string);
-    string Power(string, string);
     int compare(string, string);
     bool compareValue(string, string);
     
@@ -21,3 +20,4 @@ public:
     string real;
 };
 
+NumberObject Power(string, string);
