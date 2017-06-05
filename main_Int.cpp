@@ -11,8 +11,8 @@
 
 using namespace std;
 
+
 int main(){
-    
     
     // 重載三個數字類別的 Constructor
     Integer i = "100";
@@ -30,9 +30,8 @@ int main(){
     // 任意數的加減乘除及括弧運算。
     cout << (i + d - c)*c/(c-i)<< endl;
     cout << endl;
-    
     Integer B;
-    Integer A = 100 + B.Power(4, "2");  // Bug: not B.Power(5,"2") need: Power(5,2)
+    Integer A = 100 + Power(4, "2");  // Bug: not B.Power(5,"2") need: Power(5,2)
                                         // Bug: not B.Power(5,"0.5") not work
     cout << "A = " << A << endl;
     A = 20;
@@ -78,6 +77,7 @@ int main(){
     cout << c1 - c2  << endl;
     cout << c1 * c2  << endl;
     cout << c1 / c2  << endl;
+    cout << Power(c1, "3") << endl;
     cout << endl;
 
     cout << "Decimal" << endl;
@@ -89,13 +89,14 @@ int main(){
     cout << d1 + d2 << endl;
     cout << d1 - d2 << endl;
     cout << d1 * d2 << endl;
-    cout << d1/d2 << endl;
+    cout << d1 / d2 << endl;
+    cout << Power(d1, "3") << endl;
     cout << endl;
 
     cout << "Integer" << endl;
     Integer I1, I2,I4;
     I1 = "10";
-    I2 = "20";
+    I2 = "0";
     I4 = I2;
     Integer I3("30");
     Integer I5 = "50";
@@ -105,6 +106,7 @@ int main(){
     cout << I1 - I2 << endl;
     cout << I1 * I2 << endl;
     cout << I1 / I2 << endl;
+    cout << Power(I1, "2") << endl;
 
 
     

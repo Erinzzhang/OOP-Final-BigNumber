@@ -438,16 +438,16 @@ ostream &operator << (ostream& output, const Complex& c){
     output << "i";
     return output;
 }
-
-Complex Complex::Power(Complex base, string times){
-    Complex result = base;
-    string one = "1", loop = "1";
-    while(compare(loop, times) != 1){
-        result = result * base;
-        loop = AddString(loop, one);
-    }
-    return result;
-}
+//
+//Complex Complex::Power(Complex base, string times){
+//    Complex result = base;
+//    string one = "1", loop = "1";
+//    while(compare(loop, times) != 1){
+//        result = result * base;
+//        loop = AddString(loop, one);
+//    }
+//    return result;
+//}
 
 Complex Complex::complexAdd(const Complex& lhs, const Complex& rhs){
     Complex result;
@@ -486,3 +486,14 @@ Complex Complex::complexDivide(const Complex& top, const Complex& bottom){
     
     return result;
 }
+
+Complex Power(Complex base, string times){
+    Complex result = base;
+    string one = "1", loop = "1";
+    while(result.compare(loop, times) != 1){
+        result = result * base;
+        loop = result.AddString(loop, one);
+    }
+    return result;
+}
+

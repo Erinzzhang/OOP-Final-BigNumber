@@ -53,7 +53,7 @@ public:
 	friend istream &operator >> (istream&, Decimal&);	//cin needs to use istream
 	friend ostream &operator << (ostream&, const Decimal&);	//cout overload needs ostream
 
-    Decimal Power(Decimal, string);
+//    Decimal Power(Decimal, string);
     string divide(string, string);
     Decimal decimalAdd(const Decimal&, const Decimal&);
     Decimal decimalMinus(const Decimal&, const Decimal&);
@@ -63,4 +63,7 @@ public:
     string beforePoint;  //beforePoint.afterPoint
 	string afterPoint;
 };
+
+Decimal Power(Decimal, string);
+
 #endif

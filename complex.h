@@ -59,7 +59,7 @@ public:
     friend istream &operator >> (istream&, Complex&);
     friend ostream &operator << (ostream&, const Complex&);
     
-    Complex Power(Complex, string);
+//    Complex Power(Complex, string);
     Complex complexAdd(const Complex&, const Complex&);
     Complex complexMinus(const Complex&, const Complex&);
     Complex complexMultiply(const Complex&, const Complex&);
@@ -68,5 +68,7 @@ public:
     Decimal complexImag;
     Decimal complpexReal;
 };
+
+Complex Power(Complex, string);
 
 #endif

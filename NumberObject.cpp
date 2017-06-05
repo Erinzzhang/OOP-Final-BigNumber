@@ -314,12 +314,14 @@ std::ostream &operator<<(std::ostream &os, NumberObject const &NumberObject) {
     return os << printStr;
 }
 
-string NumberObject::Power(string base, string times){
-    string result = base, one = "1", loop = "1";
-    while(compare(loop, times) != 1){
-        result = KaratsubaMultiply(result, base);
-        loop = AddString(loop, one);
-    }
-    return result;
-}
 
+NumberObject Power(string base, string times){
+    NumberObject num;
+    string result = base, one = "1", loop = "1";
+    while(num.compare(loop, times) != 1){
+        result = num.KaratsubaMultiply(result, base);
+        loop = num.AddString(loop, one);
+    }
+    num.real = result;
+    return num;
+}

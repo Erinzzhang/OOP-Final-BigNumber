@@ -49,8 +49,11 @@ public:
     friend istream &operator >> (istream&, Integer&);	//cin needs to use istream
     friend ostream &operator << (ostream&, const Integer&);	//cout overload needs ostream
     
-    Integer Power(Integer, string);
+//    Integer Power(Integer, string);
     string integerDivide(string, string);
 };
+
+Integer Power(int, string);
+Integer Power(Integer, string);
 
 #endif /* integer_h */
