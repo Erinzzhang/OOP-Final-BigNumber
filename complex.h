@@ -66,7 +66,7 @@ public:
     Complex complexDivide(const Complex&, const Complex&);
     
     Decimal complexImag;
-    Decimal complpexReal;
+    Decimal complexReal;
 };
 
 Complex Power(Complex, string);

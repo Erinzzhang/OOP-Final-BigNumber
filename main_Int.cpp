@@ -69,7 +69,7 @@ int main(){
     Complex c1 = "1.2+i";
     Complex c2,c3=c1,c4=c3;
     c2 = "2.2+2i";
-    c3 = c2;
+    c3 = "0.0+0.0i";
     cout << c1 << endl << c2 << endl;
     cout << c3 << endl << c4 << endl;
     cout << endl;
@@ -78,19 +78,21 @@ int main(){
     cout << c1 * c2  << endl;
     cout << c1 / c2  << endl;
     cout << Power(c1, "3") << endl;
+    cout << c1 / c3 << endl;
     cout << endl;
 
     cout << "Decimal" << endl;
     Decimal d1 = "100.0";
     Decimal d2,d3;
     d2 = "100.1";
-    d3 = d2;
+    d3 = "0.0";
     cout << d1 << endl << d2 << endl << d3 << endl;
     cout << d1 + d2 << endl;
     cout << d1 - d2 << endl;
     cout << d1 * d2 << endl;
     cout << d1 / d2 << endl;
     cout << Power(d1, "3") << endl;
+    cout << d1 / d3 << endl;
     cout << endl;
 
     cout << "Integer" << endl;

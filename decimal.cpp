@@ -447,6 +447,13 @@ Decimal Decimal::decimalDivide(const Decimal& d1, const Decimal& d2){
         negative = true;
     }
     
+    if(decimalCheckZero(rhs)){
+        cout << "can't be divided by zero" << endl;
+        result.beforePoint.push_back('0');
+        result.afterPoint.push_back('0');
+        return result;
+    }
+    
     temp = result.preoperation(lhs, rhs);
     
     string SResult = temp.divide(temp.beforePoint, temp.afterPoint);
@@ -676,4 +683,19 @@ Decimal Power(Decimal base, string times){
         
     }
     return result;
+}
+
+bool Decimal::decimalCheckZero(Decimal d){
+    bool zero = true;
+    for(int i = 0; i < d.beforePoint.size(); i++){
+        if(d.beforePoint[i] != '0'){
+            zero = false;
+        }
+    }
+    for(int i = 0; i < d.afterPoint.size(); i++){
+        if(d.afterPoint[i] != '0'){
+            zero = false;
+        }
+    }
+    return zero;
 }

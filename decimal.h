@@ -16,6 +16,7 @@ public:
 	Decimal();
     Decimal(const char *number);
     Decimal preoperation(Decimal&, Decimal&);
+    bool decimalCheckZero(Decimal);
 
 	Decimal& operator+=(const Decimal& object2) {
 		return *this;
