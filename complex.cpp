@@ -496,11 +496,19 @@ Complex Complex::complexDivide(const Complex& top, const Complex& bottom){
 
 Complex Power(Complex base, string times){
     Complex result = base;
-    string one = "1", loop = "1";
-    while(result.compare(loop, times) != 1){
-        result = result * base;
-        loop = result.AddString(loop, one);
+    if(times == "0"){
+        result = "1.0+0.0i";
+        return result;
+    }else if(times == "0.5"){
+        result = "1.0+0.0i";
+        return result;
+    }else{
+        string one = "1", loop = "1";
+        while(result.compare(loop, times) != 1){
+            result = result * base;
+            loop = result.AddString(loop, one);
+        }
+        return result;
     }
-    return result;
 }
 

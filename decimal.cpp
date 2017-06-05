@@ -674,15 +674,22 @@ string Decimal::divide(string a, string b) {
 
 Decimal Power(Decimal base, string times){
     Decimal result = base;
-    string one = "1", loop = "1";
-    cout << "loop = " << loop << endl;
-    while(result.compare(loop, times) != 1){
-        result = result * base;
-        loop = result.AddString(loop, one);
+    if(times == "0"){
+        result = "1.0";
+        return result;
+    }else if(times == "0.5"){
+        result = "1.0";
+        return result;
+    }else{
+        string one = "1", loop = "1";
         cout << "loop = " << loop << endl;
-        
+        while(result.compare(loop, times) != 1){
+            result = result * base;
+            loop = result.AddString(loop, one);
+            cout << "loop = " << loop << endl;
+        }
+        return result;
     }
-    return result;
 }
 
 bool Decimal::decimalCheckZero(Decimal d){
