@@ -15,6 +15,7 @@ class Decimal: public NumberObject {
 public:
 	Decimal();
     Decimal(const char *number);
+    Decimal(const double number);
     Decimal preoperation(Decimal&, Decimal&);
     bool decimalCheckZero(Decimal);
 
@@ -31,6 +32,7 @@ public:
 		return *this;
 	}
     Decimal& operator = (const char *number);
+    Decimal& operator = (const double rhs);
     Decimal& operator = (const Decimal& rhs);
     Decimal& operator = (const Integer& rhs);
 
@@ -42,9 +44,11 @@ public:
     friend Decimal operator-(const Integer&, const Decimal&);
     friend Decimal operator-(const Decimal&, const Integer&);
     
-	friend Decimal operator*(const Decimal&, const Decimal&);
+    friend Decimal operator*(const Decimal&, const Decimal&);
     friend Decimal operator*(const Integer&, const Decimal&);
     friend Decimal operator*(const Decimal&, const Integer&);
+    friend Decimal operator*(const Decimal&, const double);
+    friend Decimal operator*(const double, const Decimal&);
     
     friend Decimal operator/(const Decimal&, const Decimal&);
     friend Decimal operator/(const Integer&, const Decimal&);

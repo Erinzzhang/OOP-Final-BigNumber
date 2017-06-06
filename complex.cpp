@@ -3,6 +3,7 @@
 #include <sstream>
 #include <cmath>
 
+
 using namespace std;
 
 Complex::Complex(){
@@ -82,6 +83,40 @@ Complex::Complex(const char *number){
         imag = complexImag.beforePoint + "." + complexImag.afterPoint;
     }
     
+    
+}
+
+
+Complex::Complex(const Decimal& number){
+    complexReal = number;
+    if(complexReal.afterPoint.size() == 0){
+        real = complexReal.beforePoint + ".00";
+    }else{
+        real = complexReal.beforePoint + "." + complexReal.afterPoint;
+    }
+    
+    if(complexImag.afterPoint.size() == 0){
+        imag = complexImag.beforePoint + ".00";
+    }else{
+        imag = complexImag.beforePoint + "." + complexImag.afterPoint;
+    }
+    
+    
+}
+
+Complex::Complex(const Integer& number){
+    complexReal = number;
+    if(complexReal.afterPoint.size() == 0){
+        real = complexReal.beforePoint + ".00";
+    }else{
+        real = complexReal.beforePoint + "." + complexReal.afterPoint;
+    }
+    
+    if(complexImag.afterPoint.size() == 0){
+        imag = complexImag.beforePoint + ".00";
+    }else{
+        imag = complexImag.beforePoint + "." + complexImag.afterPoint;
+    }
     
 }
 
@@ -220,7 +255,6 @@ Complex operator+(const Complex& lhs, const Integer& rhs) {
     result = result.complexAdd(lhs, tempComplex);
     return result;
 }
-
 
 
 //overload - operator

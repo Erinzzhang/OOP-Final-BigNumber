@@ -13,102 +13,110 @@ using namespace std;
 
 
 int main(){
-    
-    // 重載三個數字類別的 Constructor
-    Integer i = "100";
-    Decimal d = "100.0";
-    Complex c = "100+100i";
-    i = "100";
-    
-    // 三個數值類別繼承自 NumberObject
-    vector<NumberObject*> nums; nums.push_back(&i); nums.push_back(&d); nums.push_back(&c);
-    for(const auto& num : nums){
-        cout << *num << endl;
-    }
-    cout << endl;
-    
-    // 任意數的加減乘除及括弧運算。
-    cout << (i + d - c)*c/(c-i)<< endl;
-    cout << endl;
-    Integer B;
-    Decimal A = 100.0 + Power(2, "0");  // Bug: not B.Power(5,"2") need: Power(5,2)
-                                        // Bug: not B.Power(5,"0.5") not work
-    cout << "A = " << A << endl;
-    // = 20;
-    A = A + A;
-    cout << "A = " << A << endl;
-    cout << endl;
-    
-    // Integer、Decimal、Complex 重載operator <<, >>, +, -, *, /分別為輸出、輸入及四則運算功能,並且可以互相運算
-    cout << "+:" << endl;
-    cout << i + d << endl;
-    cout << i + c << endl;
-    cout << d + c << endl;
-    cout << endl;
-
-    cout << "- : " << endl;
-    cout << i - d << endl;
-    cout << i - c << endl;
-    cout << d - c << endl;
-    cout << endl;
-
-    cout << "* : " << endl;
-    cout << i * d << endl;
-    cout << i * c << endl;
-    cout << d * c << endl;
-    cout << endl;
-
-    cout << "/ : " << endl;
-    cout << i / d << endl;
-    cout << i / c << endl;
-    cout << d / c << endl;
-    cout << endl;
-
-    
-    cout << "Complex" << endl;
-    Complex c1 = "1.2+i";
-    Complex c2,c3=c1,c4=c3;
-    c2 = "2.2+2i";
-    c3 = "0.0+0.0i";
-    cout << c1 << endl << c2 << endl;
-    cout << c3 << endl << c4 << endl;
-    cout << endl;
-    cout << c1 + c2 << endl;
-    cout << c1 - c2  << endl;
-    cout << c1 * c2  << endl;
-    cout << c1 / c2  << endl;
-    cout << Power(c1, "3") << endl;
-    cout << c1 / c3 << endl;
-    cout << endl;
-
-    cout << "Decimal" << endl;
-    Decimal d1 = "100.0";
-    Decimal d2,d3;
-    d2 = "100.1";
-    d3 = "0.0";
-    cout << d1 << endl << d2 << endl << d3 << endl;
-    cout << d1 + d2 << endl;
-    cout << d1 - d2 << endl;
-    cout << d1 * d2 << endl;
-    cout << d1 / d2 << endl;
-    cout << Power(d1, "3") << endl;
-    cout << d1 / d3 << endl;
-    cout << endl;
-
-    cout << "Integer" << endl;
-    Integer I1, I2,I4;
-    I1 = "10";
-    I2 = "0";
-    I4 = I2;
-    Integer I3("30");
-    Integer I5 = "50";
-    
-    cout << I1 << " " << I2 << " " << I3 << " " << I4 << " " << I5 << endl;
-    cout << I1 + I2 << endl;
-    cout << I1 - I2 << endl;
-    cout << I1 * I2 << endl;
-    cout << I1 / I2 << endl;
-    cout << Power(I1, "2") << endl;
+    Integer A = 100 * 5;
+    Complex A1 = A;
+    cout << A << endl;
+    cout << A1 << endl;
+    Decimal B = 1.1;  //Bug: overload double to decimal
+    cout << B << endl;
+    //Complex C = (A+B) * 5.0 + (4+3i);   // Bug: * decimal to complex , + ambiguous
+    //cout << C;
+    //cout <<  C + A*B / 3.333333 + A/B * C + Power(C, 2) * Power(A, 0.5) // Bug: /
+//    // 重載三個數字類別的 Constructor
+//    Integer i = "100";
+//    Decimal d = "100.0";
+//    Complex c = "100+100i";
+//    i = "100";
+//    
+//    // 三個數值類別繼承自 NumberObject
+//    vector<NumberObject*> nums; nums.push_back(&i); nums.push_back(&d); nums.push_back(&c);
+//    for(const auto& num : nums){
+//        cout << *num << endl;
+//    }
+//    cout << endl;
+//    
+//    // 任意數的加減乘除及括弧運算。
+//    cout << (i + d - c)*c/(c-i) << endl;
+//    cout << endl;
+//    Integer B;
+//    Decimal A = 100.0 + Power(2, "1");  // Bug: not B.Power(5,"2") need: Power(5,2)
+//                                        // Bug: not B.Power(5,"0.5") not work
+//    cout << "A = " << A << endl;
+//    // = 20;
+//    A = A + A;
+//    cout << "A = " << A << endl;
+//    cout << endl;
+//    
+//    // Integer、Decimal、Complex 重載operator <<, >>, +, -, *, /分別為輸出、輸入及四則運算功能,並且可以互相運算
+//    cout << "+:" << endl;
+//    cout << i + d << endl;
+//    cout << i + c << endl;
+//    cout << d + c << endl;
+//    cout << endl;
+//
+//    cout << "- : " << endl;
+//    cout << i - d << endl;
+//    cout << i - c << endl;
+//    cout << d - c << endl;
+//    cout << endl;
+//
+//    cout << "* : " << endl;
+//    cout << i * d << endl;
+//    cout << i * c << endl;
+//    cout << d * c << endl;
+//    cout << endl;
+//
+//    cout << "/ : " << endl;
+//    cout << i / d << endl;
+//    cout << i / c << endl;
+//    cout << d / c << endl;
+//    cout << endl;
+//
+//    
+//    cout << "Complex" << endl;
+//    Complex c1 = "1.2+i";
+//    Complex c2,c3=c1,c4=c3;
+//    c2 = "2.2+2i";
+//    c3 = "0.0+0.0i";
+//    cout << c1 << endl << c2 << endl;
+//    cout << c3 << endl << c4 << endl;
+//    cout << endl;
+//    cout << c1 + c2 << endl;
+//    cout << c1 - c2  << endl;
+//    cout << c1 * c2  << endl;
+//    cout << c1 / c2  << endl;
+//    cout << Power(c1, "3") << endl;
+//    cout << c1 / c3 << endl;
+//    cout << endl;
+//
+//    cout << "Decimal" << endl;
+//    Decimal d1 = "100.0";
+//    Decimal d2,d3;
+//    d2 = "100.1";
+//    d3 = "0.0";
+//    cout << d1 << endl << d2 << endl << d3 << endl;
+//    cout << d1 + d2 << endl;
+//    cout << d1 - d2 << endl;
+//    cout << d1 * d2 << endl;
+//    cout << d1 / d2 << endl;
+//    cout << Power(d1, "3") << endl;
+//    cout << d1 / d3 << endl;
+//    cout << endl;
+//
+//    cout << "Integer" << endl;
+//    Integer I1, I2,I4;
+//    I1 = "10";
+//    I2 = "0";
+//    I4 = I2;
+//    Integer I3("30");
+//    Integer I5 = "50";
+//    
+//    cout << I1 << " " << I2 << " " << I3 << " " << I4 << " " << I5 << endl;
+//    cout << I1 + I2 << endl;
+//    cout << I1 - I2 << endl;
+//    cout << I1 * I2 << endl;
+//    cout << I1 / I2 << endl;
+//    cout << Power(I1, "2") << endl;
 
 
     

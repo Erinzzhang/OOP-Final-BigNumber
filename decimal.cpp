@@ -32,6 +32,25 @@ Decimal::Decimal(const char *number){
     real = beforePoint + "." + afterPoint;
 }
 
+Decimal::Decimal(const double number){
+    stringstream ss;
+    char splitChar;
+    ss << number;
+    ss >> splitChar;
+    //input to decimal class
+    while(splitChar != '.'){
+        beforePoint.push_back(splitChar);
+        if(!(ss >> splitChar)){
+            afterPoint.push_back('0');
+            break;
+        }
+    }
+    while(ss >> splitChar){
+        afterPoint.push_back(splitChar);
+    }
+    real = beforePoint + "." + afterPoint;
+}
+
 
 //overload = operator
 Decimal& Decimal::operator = (const char *number){
@@ -51,6 +70,28 @@ Decimal& Decimal::operator = (const char *number){
     while(ss >> splitChar){
         afterPoint.push_back(splitChar);
     }
+    real = beforePoint + "." + afterPoint;
+    return *this;
+}
+
+Decimal& Decimal::operator = (const double rhs){
+    stringstream ss;
+    char splitChar;
+    ss << rhs;
+    ss >> splitChar;
+    string temp = ss.str();
+    //input to decimal class
+    while(splitChar != '.'){
+        beforePoint.push_back(splitChar);
+        if(!(ss >> splitChar)){
+            afterPoint.push_back('0');
+            break;
+        }
+    }
+    while(ss >> splitChar){
+        afterPoint.push_back(splitChar);
+    }
+    // return the existing object so we can chain this operator
     real = beforePoint + "." + afterPoint;
     return *this;
 }
@@ -131,6 +172,20 @@ Decimal operator*(const Decimal& lhs, const Integer& rhs) {
 }
 
 Decimal operator*(const Integer& lhs, const Decimal& rhs) {
+    Decimal result,tempDecimal;
+    tempDecimal = lhs;  // convert Integer to Complex
+    result = result.decimalMultiply(tempDecimal, rhs);
+    return result;
+}
+
+Decimal operator*(const Decimal& lhs, const double rhs) {
+    Decimal result,tempDecimal;
+    tempDecimal = rhs;  // convert Integer to Complex
+    result = result.decimalMultiply(lhs, tempDecimal);
+    return result;
+}
+
+Decimal operator*(const double lhs, const Decimal& rhs) {
     Decimal result,tempDecimal;
     tempDecimal = lhs;  // convert Integer to Complex
     result = result.decimalMultiply(tempDecimal, rhs);

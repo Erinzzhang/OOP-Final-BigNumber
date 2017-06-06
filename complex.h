@@ -4,6 +4,7 @@
 #include "integer.h"
 #include <string>
 #include <vector>
+#include <complex>      // std::complex
 
 using namespace std;
 
@@ -12,6 +13,8 @@ class Complex: public Decimal {
 public:
     Complex();
     Complex(const char *number);
+    Complex(const Decimal& number);
+    Complex(const Integer& number);
 
     Complex& operator+=(const Complex& obj){
         return *this;
@@ -30,7 +33,6 @@ public:
     Complex& operator = (const Decimal& rhs);
     Complex& operator = (const Integer& rhs);
     
-
     friend Complex operator+(const Complex&, const Complex&);
     friend Complex operator+(const Complex&, const Decimal&);
     friend Complex operator+(const Decimal&, const Complex&);
