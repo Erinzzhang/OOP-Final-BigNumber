@@ -32,7 +32,9 @@ public:
 		return *this;
 	}
     Decimal& operator = (const char *number);
+    Decimal& operator = (const int rhs);
     Decimal& operator = (const double rhs);
+    Decimal& operator = (const float rhs);
     Decimal& operator = (const Decimal& rhs);
     Decimal& operator = (const Integer& rhs);
 

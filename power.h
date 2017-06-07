@@ -8,24 +8,18 @@
 
 using namespace std;
 
-NumberObject Power(string, string);
+//NumberObject Power(string, int);
 
-template <class T>
-T Power(int, string);
+NumberObject Power(int, int);
+NumberObject Power(int, float);
+NumberObject Power(float, int);
+NumberObject Power(float, float);
+NumberObject Power(Integer, int);
+NumberObject Power(Integer, float);
+NumberObject Power(Decimal, int);
+NumberObject Power(Decimal, float);
 
-template <class T>
-T Power(float, string);
-template <class T>
-T Power(Integer, string);
-template <class T>
-T Power(Decimal, string);
-
-Complex Power(Complex, string);
-
-Complex PowerNegative(string, string);
-Complex PowerNegative(int, string);
-Complex PowerNegative(float, string);
-Complex PowerNegative(Integer, string);
-Complex PowerNegative(Decimal, string);
+void Power(Complex, int);
+void Power(Complex, float);
 
 #endif

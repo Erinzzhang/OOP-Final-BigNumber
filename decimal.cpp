@@ -52,6 +52,8 @@ Decimal::Decimal(const double number){
 }
 
 
+
+
 //overload = operator
 Decimal& Decimal::operator = (const char *number){
     string temp(number);
@@ -73,8 +75,41 @@ Decimal& Decimal::operator = (const char *number){
     real = beforePoint + "." + afterPoint;
     return *this;
 }
-
+Decimal& Decimal::operator = (const int rhs){
+    stringstream ss;
+    char splitChar;
+    ss << rhs;
+    ss >> splitChar;
+    while(ss >> splitChar){
+        beforePoint.push_back(splitChar);
+    }
+    afterPoint.push_back('0');
+    // return the existing object so we can chain this operator
+    real = beforePoint + "." + afterPoint;
+    return *this;
+}
 Decimal& Decimal::operator = (const double rhs){
+    stringstream ss;
+    char splitChar;
+    ss << rhs;
+    ss >> splitChar;
+    string temp = ss.str();
+    //input to decimal class
+    while(splitChar != '.'){
+        beforePoint.push_back(splitChar);
+        if(!(ss >> splitChar)){
+            afterPoint.push_back('0');
+            break;
+        }
+    }
+    while(ss >> splitChar){
+        afterPoint.push_back(splitChar);
+    }
+    // return the existing object so we can chain this operator
+    real = beforePoint + "." + afterPoint;
+    return *this;
+}
+Decimal& Decimal::operator = (const float rhs){
     stringstream ss;
     char splitChar;
     ss << rhs;
@@ -152,7 +187,6 @@ Decimal operator-(const Decimal& lhs, const Integer& rhs) {
 Decimal operator-(const Integer& lhs, const Decimal& rhs) {
     Decimal result,tempDecimal;
     tempDecimal = lhs;  // convert Integer to Complex
-    cout << "tmep:" << tempDecimal << endl;
     result = result.decimalMinus(tempDecimal, rhs);
     return result;
 }
