@@ -13,12 +13,12 @@ using namespace std;
 
 
 int main(){
-    Integer A = 100 * 5;
-    Complex A1 = A;
+    Integer A = 100 * 5 * -1;
     cout << A << endl;
-    cout << A1 << endl;
+    Complex A1 = A;
     Decimal B = 1.1;  //Bug: overload double to decimal
-    cout << B << endl;
+    cout << Power(A, "2") << endl;
+    cout << Power(B, "0.5") << endl;
     //Complex C = (A+B) * 5.0 + (4+3i);   // Bug: * decimal to complex , + ambiguous
     //cout << C;
     //cout <<  C + A*B / 3.333333 + A/B * C + Power(C, 2) * Power(A, 0.5) // Bug: /

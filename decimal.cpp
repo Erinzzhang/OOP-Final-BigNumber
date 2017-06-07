@@ -751,15 +751,69 @@ Decimal Power(float base, string times){
 }
 
 
+
 Decimal Power(Decimal base, string times){
-    Decimal result = base;
+    Decimal result;
     if(times == "0"){
         result = "1.0";
         return result;
     }else if(times == "0.5"){
-        result = "1.0";
+        //let size become even numbers
+        if(base.beforePoint.size() % 2 != 0){
+            base.beforePoint.insert(base.beforePoint.begin(), '0');
+        }
+        if(base.afterPoint.size() % 2 != 0){
+            base.afterPoint.push_back('0');
+        }
+
+        //start calculating
+        string c, root = "0";
+        int i = 0;
+        while(i < (base.beforePoint.size() + base.afterPoint.size()+ 20)){
+            if(i < base.beforePoint.size()){
+                c.push_back(base.beforePoint[i]);
+                i++;
+                c.push_back(base.beforePoint[i]);
+            }else if (i >= base.beforePoint.size() && i < (base.beforePoint.size() + base.afterPoint.size())){
+                c.push_back(base.afterPoint[i - base.beforePoint.size()]);
+                i++;
+                c.push_back(base.afterPoint[i - base.beforePoint.size()]);
+            }else{
+                c.push_back('0');
+                i++;
+                c.push_back('0');
+            }
+            //compare with squared numbers(1-9)
+            for(int x = 0; x <= 10; x++){
+                stringstream ss;
+                ss << x;
+                //y = x(20*root + x)
+                string y = result.KaratsubaMultiply(result.AddString(result.KaratsubaMultiply("20", root), ss.str()), ss.str());
+                //clean c
+                c = result.KaratsubaMultiply("1", c);
+                if(result.compare(c, y) == 0 || c == y){
+                    ss.str("");
+                    if(c != y) x--;
+                    ss << x;
+                    y = result.KaratsubaMultiply(result.AddString(result.KaratsubaMultiply("20", root), ss.str()), ss.str());
+                    root = result.AddString(result.KaratsubaMultiply("10", root), ss.str());
+                    c = result.MinusString(c, y);
+                    break;
+                }
+            }
+            i++;
+        }
+        int it;
+        for(it = 0; it < base.beforePoint.size()/2; it++){
+            result.beforePoint.push_back(root[it]);
+        }
+        while(it < root.size()){
+            result.afterPoint.push_back(root[it]);
+            it++;
+        }
         return result;
     }else{
+        result = base;
         string one = "1", loop = "1";
         cout << "loop = " << loop << endl;
         while(result.compare(loop, times) != 1){

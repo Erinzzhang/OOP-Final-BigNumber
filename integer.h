@@ -54,6 +54,6 @@ public:
 };
 
 //Integer Power(int, string);
-Integer Power(Integer, string);
+Decimal Power(Integer, string);
 
 #endif /* integer_h */
