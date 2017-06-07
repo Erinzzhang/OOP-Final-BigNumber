@@ -152,7 +152,6 @@ Decimal operator-(const Decimal& lhs, const Integer& rhs) {
 Decimal operator-(const Integer& lhs, const Decimal& rhs) {
     Decimal result,tempDecimal;
     tempDecimal = lhs;  // convert Integer to Complex
-    cout << "tmep:" << tempDecimal << endl;
     result = result.decimalMinus(tempDecimal, rhs);
     return result;
 }

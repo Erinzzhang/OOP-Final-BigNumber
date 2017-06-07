@@ -13,20 +13,29 @@ using namespace std;
 
 
 int main(){
-    Integer A = 100 * 5 * -1;
-    cout << A << endl;
-    Complex A1 = A;
-    Decimal B = 1.1;  //Bug: overload double to decimal
-    cout << Power(A, "2") << endl;
-    cout << Power(B, "0.5") << endl;
-    //Complex C = (A+B) * 5.0 + (4+3i);   // Bug: * decimal to complex , + ambiguous
+    //cout << A << endl;
+    //cout << B << endl;
+    //cout << A - B << endl;
+    //cout << Power(A, "2") << endl;
+    
+    //cout << Power(B, 0.5f) << endl;
+//    Complex C = "4+3i";
+//    cout << C;
+    //Complex C = (A+B) * 5.0 + "4+3i";   // Bug: * decimal to complex , + ambiguous
     //cout << C;
-    //cout <<  C + A*B / 3.333333 + A/B * C + Power(C, 2) * Power(A, 0.5) // Bug: /
-//    // 重載三個數字類別的 Constructor
+    Integer A = 0;
+    Integer B = 0;
+    Complex C = "1+2i";
+    Decimal D = 3.33333;
+    cout << A*B << endl;
+    cout <<  C + A*B / D << endl; //+ A/B * C + Power(3, 2) * Power(A, 0.5) ;// Bug:
+    
+    // 重載三個數字類別的 Constructor
 //    Integer i = "100";
 //    Decimal d = "100.0";
 //    Complex c = "100+100i";
 //    i = "100";
+//    
 //    
 //    // 三個數值類別繼承自 NumberObject
 //    vector<NumberObject*> nums; nums.push_back(&i); nums.push_back(&d); nums.push_back(&c);
@@ -34,12 +43,12 @@ int main(){
 //        cout << *num << endl;
 //    }
 //    cout << endl;
-//    
-//    // 任意數的加減乘除及括弧運算。
-//    cout << (i + d - c)*c/(c-i) << endl;
+//
+    // 任意數的加減乘除及括弧運算。
+    //cout << (i + d - c)*c/(c-i) + 3 << endl;
 //    cout << endl;
 //    Integer B;
-//    Decimal A = 100.0 + Power(2, "1");  // Bug: not B.Power(5,"2") need: Power(5,2)
+//    Decimal A = 100.0 ;//+ Power(2, "1");  // Bug: not B.Power(5,"2") need: Power(5,2)
 //                                        // Bug: not B.Power(5,"0.5") not work
 //    cout << "A = " << A << endl;
 //    // = 20;
@@ -117,7 +126,7 @@ int main(){
 //    cout << I1 * I2 << endl;
 //    cout << I1 / I2 << endl;
 //    cout << Power(I1, "2") << endl;
-
+//
 
     
 //    inputFormula formula;

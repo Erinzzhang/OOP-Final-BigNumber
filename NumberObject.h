@@ -4,6 +4,10 @@ using namespace std;
 
 class NumberObject {
 public:
+//    NumberObject(int);
+//    NumberObject(string);
+//    NumberObject(float);
+    
 	vector<int> add(vector<int>, vector<int>, bool);    //bool is true if is calculating decimal numbers after the point
 	vector<int> sub(vector<int>, vector<int>);
     int MakeSameLen(string&,string&);
@@ -20,5 +24,7 @@ public:
     string real;
 };
 
-NumberObject Power(string, string);
-NumberObject Power(float, float);
+//NumberObject Power(string, string);
+//NumberObject Power(float, float);
+NumberObject Power(NumberObject, int);
+NumberObject Power(NumberObject, float);

@@ -110,15 +110,28 @@ int NumberObject::MakeSameLen(string& num1,string& num2){
     }
 }
 
+string checkString(string number){
+    string tempStr;
+    if (number[0] == '-'){
+        number.erase(number.begin());
+    }
+    bool check = true;
+    for (int i = 0; i < number.size(); i++){
+        if (number[i] != '0'){
+            check = false;
+        }
+    }
+    if(check == true){
+        tempStr = "0";
+    }else{
+        tempStr = number;
+    }
+    return tempStr;
+}
+
 // big number minus function
 string NumberObject::MinusString(string num1, string num2) {
-    int len1 = (int)num1.length();
-    int len2 = (int)num2.length();
     
-    // equal
-    if(num1 == num2){
-        return "0";
-    }
     
     //process '-'
     if(num1[0] == '-' && num2[0] == '-'){   // b-a
@@ -127,6 +140,7 @@ string NumberObject::MinusString(string num1, string num2) {
         string tmp = num1;
         num1 = num2;
         num2 = tmp;
+        cout << num1 << " " << num2 << endl;
     }else if(num1[0] == '-' && num2[0] != '-'){     // -(a+b)
         num1.erase(num1.begin());
         string tmp = AddString(num1, num2);
@@ -137,6 +151,21 @@ string NumberObject::MinusString(string num1, string num2) {
         string tmp = AddString(num1, num2);
         return tmp;
     }
+    // process number = 0...000
+    num1 = checkString(num1);
+    num2 = checkString(num2);
+    
+    // length
+    int len1 = (int)num1.length();
+    int len2 = (int)num2.length();
+    
+    // equal
+    if(num1 == num2){
+        return "0";
+    }
+
+  
+
     
     // + or -
     bool positive = true;
@@ -174,11 +203,38 @@ string NumberObject::MinusString(string num1, string num2) {
         ++it;
     }
     result.erase(result.begin(),it);
-    return positive ? result : "-"+result;
+    
+    if(positive == false){
+        result.insert(result.begin(), '-');
+        if (result == "-0"){
+            result = "0";
+        }
+    }
+    return result;
+    
 }
 // big number add function
 string NumberObject::AddString(string num1,string num2){
     bool negative = false;
+    //process '-'
+    if(num1[0] == '-' && num2[0] == '-'){   // -(a+b)
+        num1.erase(num1.begin());
+        num2.erase(num2.begin());
+        negative = true;
+    }else if(num1[0] == '-' && num2[0] != '-'){     // b-a
+        num1.erase(num1.begin());
+        string tmp = MinusString(num1, num2);
+        return tmp;
+    }else if(num1[0] != '-' && num2[0] == '-'){     // a-b
+        num2.erase(num2.begin());
+        string tmp = MinusString(num2, num1);
+        return tmp;
+    }
+    
+    num1 = checkString(num1);
+    num2 = checkString(num2);
+    
+    // length
     int len1 = (int)num1.length();
     int len2 = (int)num2.length();
     // 容錯處理
@@ -189,21 +245,7 @@ string NumberObject::AddString(string num1,string num2){
         return num1;
     }
     
-    //process '-'
-    if(num1[0] == '-' && num2[0] == '-'){   // -(a+b)
-        num1.erase(num1.begin());
-        num2.erase(num2.begin());
-        negative = true;
-    }else if(num1[0] == '-' && num2[0] != '-'){     // b-a
-        num1.erase(num1.begin());
-        string tmp = MinusString(num2, num1);
-        return tmp;
-    }else if(num1[0] != '-' && num2[0] == '-'){     // a-b
-        num2.erase(num2.begin());
-        string tmp = MinusString(num1, num2);
-        return tmp;
-    }
-    
+
     string result;
     int i = len1-1,j = len2-1;
     int a,b,sum,carry = 0;
@@ -222,6 +264,9 @@ string NumberObject::AddString(string num1,string num2){
     
     if(negative){
         result.insert(result.begin(), '-');
+        if (result == "-0"){
+            result = "0";
+        }
     }
     
     return result;
@@ -314,22 +359,64 @@ std::ostream &operator<<(std::ostream &os, NumberObject const &NumberObject) {
     return os << printStr;
 }
 
+//
+//NumberObject Power(string base, string times){
+//    NumberObject num;
+//    if(times == "0"){
+//        num.real = "1";
+//        return num;
+//    }else if(times == "0.5"){
+//        num.real = "1";
+//        return num;
+//    }else{
+//        string result = base, one = "1", loop = "1";
+//        while(num.compare(loop, times) != 1){
+//            result = num.KaratsubaMultiply(result, base);
+//            loop = num.AddString(loop, one);
+//        }
+//        num.real = result;
+//        return num;
+//    }
+//}
 
-NumberObject Power(string base, string times){
+NumberObject Power(NumberObject base, int times){
     NumberObject num;
-    if(times == "0"){
+    if(times == 0){
         num.real = "1";
         return num;
-    }else if(times == "0.5"){
+    }else if(times == 0.5){
         num.real = "1";
         return num;
     }else{
-        string result = base, one = "1", loop = "1";
-        while(num.compare(loop, times) != 1){
-            result = num.KaratsubaMultiply(result, base);
+        stringstream ss;
+        ss << times;
+        string result = base.real, one = "1", loop = "1";
+        while(num.compare(loop, ss.str()) != 1){
+            result = num.KaratsubaMultiply(result, base.real);
             loop = num.AddString(loop, one);
         }
         num.real = result;
         return num;
     }
 }
+NumberObject Power(NumberObject base, float times){
+    NumberObject num;
+    if(times == 0){
+        num.real = "1";
+        return num;
+    }else if(times == 0.5){
+        num.real = "1";
+        return num;
+    }else{
+        stringstream ss;
+        ss << times;
+        string result = base.real, one = "1", loop = "1";
+        while(num.compare(loop, ss.str()) != 1){
+            result = num.KaratsubaMultiply(result, base.real);
+            loop = num.AddString(loop, one);
+        }
+        num.real = result;
+        return num;
+    }
+}
+
