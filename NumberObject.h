@@ -19,6 +19,3 @@ public:
     string imag;
     string real;
 };
-
-NumberObject Power(string, string);
-NumberObject Power(float, float);

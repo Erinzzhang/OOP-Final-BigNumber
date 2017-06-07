@@ -71,6 +71,4 @@ public:
     Decimal complexReal;
 };
 
-Complex Power(Complex, string);
-
 #endif

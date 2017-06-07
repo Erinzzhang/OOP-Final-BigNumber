@@ -68,7 +68,4 @@ public:
     string beforePoint;  //beforePoint.afterPoint
 	string afterPoint;
 };
-Decimal Power(float, string);
-Decimal Power(Decimal, string);
-
 #endif

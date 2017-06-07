@@ -314,22 +314,3 @@ std::ostream &operator<<(std::ostream &os, NumberObject const &NumberObject) {
     return os << printStr;
 }
 
-
-NumberObject Power(string base, string times){
-    NumberObject num;
-    if(times == "0"){
-        num.real = "1";
-        return num;
-    }else if(times == "0.5"){
-        num.real = "1";
-        return num;
-    }else{
-        string result = base, one = "1", loop = "1";
-        while(num.compare(loop, times) != 1){
-            result = num.KaratsubaMultiply(result, base);
-            loop = num.AddString(loop, one);
-        }
-        num.real = result;
-        return num;
-    }
-}

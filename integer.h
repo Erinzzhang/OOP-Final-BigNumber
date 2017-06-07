@@ -53,7 +53,4 @@ public:
     string integerDivide(string, string);
 };
 
-//Integer Power(int, string);
-Decimal Power(Integer, string);
-
 #endif /* integer_h */

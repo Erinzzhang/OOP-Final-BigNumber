@@ -6,19 +6,18 @@
 //  Copyright © 2017年 Erin Zhang. All rights reserved.
 //
 
-#include "complex.h"
+#include "power.h"
 #include <iostream>
 
 using namespace std;
-
 
 int main(){
     Integer A = 100 * 5 * -1;
     cout << A << endl;
     Complex A1 = A;
     Decimal B = 1.1;  //Bug: overload double to decimal
-    cout << Power(A, "2") << endl;
-    cout << Power(B, "0.5") << endl;
+    cout << Power<Integer>(A, "0.5") << endl;
+    cout << Power<Decimal>(B, "0.5") << endl;
     //Complex C = (A+B) * 5.0 + (4+3i);   // Bug: * decimal to complex , + ambiguous
     //cout << C;
     //cout <<  C + A*B / 3.333333 + A/B * C + Power(C, 2) * Power(A, 0.5) // Bug: /
